@@ -20,6 +20,7 @@ public class MainWindow extends JFrame implements KeyListener{
 		this.setSize(new Dimension (700, 700));
 		this.setVisible(false);
 		this.setVisible(true);
+		PlayerShip ship = new PlayerShip();
 
 	}
 	
@@ -32,8 +33,10 @@ public class MainWindow extends JFrame implements KeyListener{
 		
 		if (keyInt == 37){
 			System.out.println("Left Key Pressed");
+			
 		} else if (keyInt == 38){
 			System.out.println("Up Key Pressed");
+			
 
 		} else if (keyInt ==39){
 			System.out.println("Right Key Pressed");
