@@ -18,9 +18,6 @@ public class MainWindow extends JFrame implements KeyListener{
 		this.setTitle("Space");
 		this.addKeyListener(this);
 		this.setSize(new Dimension (700, 700));
-//		GamePanel gPane = new GamePanel();
-//		gPane.addKeyListener(this);
-	//	this.add(boxbox);		
 		this.setVisible(false);
 		this.setVisible(true);
 
@@ -32,6 +29,19 @@ public class MainWindow extends JFrame implements KeyListener{
 	public void keyPressed(KeyEvent event) {
 		int keyInt =event.getKeyCode();
 		char keyChar = event.getKeyChar();
+		
+		if (keyInt == 37){
+			System.out.println("Left Key Pressed");
+		} else if (keyInt == 38){
+			System.out.println("Up Key Pressed");
+
+		} else if (keyInt ==39){
+			System.out.println("Right Key Pressed");
+
+		} else if (keyInt ==40){
+			System.out.println("Down Key Pressed");
+
+		}
 
 	}
 	public void keyReleased(KeyEvent event) {
