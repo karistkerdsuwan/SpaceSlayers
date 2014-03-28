@@ -125,5 +125,9 @@ public class GameObject {
 		y += speedY;
 		
 	}
+	public void update(Graphics graphics) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
