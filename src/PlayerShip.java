@@ -21,7 +21,7 @@ public class PlayerShip {
 	}
 	
 	void draw (Graphics g){
-		g.fillOval(xCoordinate, yCoordinate, 20, 20);
+		g.fillOval(xCoordinate, yCoordinate, 70, 40);
 	}
 	
 }

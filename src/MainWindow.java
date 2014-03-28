@@ -1,6 +1,7 @@
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -10,13 +11,12 @@ import javax.swing.JTextField;
 
 public class MainWindow extends JFrame implements KeyListener{
 	private PlayerShip ship;
+	public Image bufferImage;
+	public Graphics bufferGraphic;
+
 	void update (StateInformation info){
 		super.paint(this.getGraphics());
-//		this.getGraphics().drawRect(50, 50, 600, 600);
-		ship.draw(this.getGraphics());
-		for (int objectCount=0;objectCount!=info.allObjects.size();objectCount++){
-			info.allObjects.get(objectCount).update(this.getGraphics());
-		}
+		
 	}
 	
 	MainWindow(PlayerShip shipToMove){
@@ -28,6 +28,7 @@ public class MainWindow extends JFrame implements KeyListener{
 		ship = shipToMove;
 		ship.draw(this.getGraphics());
 		this.paint(this.getGraphics());
+		
 	}
 	
 	public void keyPressed(KeyEvent event) {
