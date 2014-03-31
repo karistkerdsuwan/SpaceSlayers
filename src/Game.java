@@ -8,6 +8,7 @@ public class Game {
 	public PlayerShip ship;
 	public MainWindow gameWindow;
 	public static StateInformation info; 
+	public int time;
 	
 	Game (){
 		info = new StateInformation();
@@ -18,6 +19,7 @@ public class Game {
 		Timer timer = new Timer();	
 		Graphics g = gameWindow.getGraphics();
 		gameWindow.paint(g);
+		
 
 		TimerTask task = new TimerTask(){
 			public void run (){			
@@ -25,13 +27,35 @@ public class Game {
 
 				gameWindow.update(g);
 
-	//			gameWindow.update(gameWindow.getGraphics());
-	//			System.out.println("running");
 			}
 		};
-		timer.scheduleAtFixedRate(task, 200, 4);
+		timer.scheduleAtFixedRate(task, 100, 3);
 
-	}
+	
+	
+	TimerTask spawn = new TimerTask(){
+		public void run (){			
+
+			time++;
+			System.out.println(time);
+			if(time%1800==0){
+				enemnySpawn(time);
+			}
+		}
+
+		private void enemnySpawn(int time) {
+	//		if(time%1800==0){
+				info.allObjects.add(new BasicEnemy(300, 300, 50, 5, 5));
+	//		}
+			
+		}
+	};
+	timer.scheduleAtFixedRate(spawn, 900, 900);
+
+}
+
+	
+	
 	public static void main (String[] args){
 		Game game = new Game();
 	}

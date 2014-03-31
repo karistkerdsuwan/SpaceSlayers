@@ -78,48 +78,48 @@ public class GameObject {
 		return (float)Math.toDegrees(Math.atan2(-speedY, speedX));
 	}
 	
-	public void collideBalls(Ball ball) {
-		float distance = (float) Math.sqrt(((this.x - ball.x) * (this.x - ball.x))
-	    + ((this.y - ball.y) * (this.y - ball.y)));
-		if (distance < this.radius + ball.radius)
-		{
-			// move ball i so that ball i touches ball j
-            double dx = (radius*2-distance)*(x-ball.x)/distance;
-            double dy = (radius*2-distance)*(y-ball.y)/distance;
-            x+=dx;
-            y+=dy;
-            
-            float a = getMoveAngle(); // angle of ball 1 
-            float b = ball.getMoveAngle(); //angle of ball 2
-            float c = (float) Math.toDegrees(Math.atan2((ball.y-y),ball.x-x));
-            
-            float ac = a-c;
-            float bc = b-c;
-            
-            float xSpeedi = (float) (getSpeed()*Math.cos(Math.toRadians(ac)));
-            float ySpeedi = (float) (getSpeed()*Math.sin(Math.toRadians(ac)));
-            
-            float xSpeedj = (float) (ball.getSpeed()*Math.cos(Math.toRadians(bc)));
-            float ySpeedj = (float) (ball.getSpeed()*Math.sin(Math.toRadians(bc)));
-            
-            float newSpeedi = (float) Math.sqrt(xSpeedj*xSpeedj + ySpeedi*ySpeedi);
-            float newSpeedj = (float) Math.sqrt(xSpeedi*xSpeedi + ySpeedj*ySpeedj);
-            
-            // compute the new angle
-            float newAnglei = (float) Math.toDegrees(Math.atan2(ySpeedi,xSpeedj));
-            float newAnglej = (float) Math.toDegrees(Math.atan2(ySpeedj,xSpeedi));
-            // rotate back to original orientation
-            newAnglei += c;
-            newAnglej += c;
-            
-            speedX = (float) (newSpeedi * Math.cos(Math.toRadians(newAnglei)));
-            speedY = (float) (newSpeedi * Math.sin(Math.toRadians(newAnglei)));
-            
-            ball.speedX = (float) (newSpeedj * Math.cos(Math.toRadians(newAnglej)));
-            ball.speedY = (float) (newSpeedj * Math.sin(Math.toRadians(newAnglej)));
-		}
-		
-	}
+//	public void collideBalls(Ball ball) {
+//		float distance = (float) Math.sqrt(((this.x - ball.x) * (this.x - ball.x))
+//	    + ((this.y - ball.y) * (this.y - ball.y)));
+//		if (distance < this.radius + ball.radius)
+//		{
+//			// move ball i so that ball i touches ball j
+//            double dx = (radius*2-distance)*(x-ball.x)/distance;
+//            double dy = (radius*2-distance)*(y-ball.y)/distance;
+//            x+=dx;
+//            y+=dy;
+//            
+//            float a = getMoveAngle(); // angle of ball 1 
+//            float b = ball.getMoveAngle(); //angle of ball 2
+//            float c = (float) Math.toDegrees(Math.atan2((ball.y-y),ball.x-x));
+//            
+//            float ac = a-c;
+//            float bc = b-c;
+//            
+//            float xSpeedi = (float) (getSpeed()*Math.cos(Math.toRadians(ac)));
+//            float ySpeedi = (float) (getSpeed()*Math.sin(Math.toRadians(ac)));
+//            
+//            float xSpeedj = (float) (ball.getSpeed()*Math.cos(Math.toRadians(bc)));
+//            float ySpeedj = (float) (ball.getSpeed()*Math.sin(Math.toRadians(bc)));
+//            
+//            float newSpeedi = (float) Math.sqrt(xSpeedj*xSpeedj + ySpeedi*ySpeedi);
+//            float newSpeedj = (float) Math.sqrt(xSpeedi*xSpeedi + ySpeedj*ySpeedj);
+//            
+//            // compute the new angle
+//            float newAnglei = (float) Math.toDegrees(Math.atan2(ySpeedi,xSpeedj));
+//            float newAnglej = (float) Math.toDegrees(Math.atan2(ySpeedj,xSpeedi));
+//            // rotate back to original orientation
+//            newAnglei += c;
+//            newAnglej += c;
+//            
+//            speedX = (float) (newSpeedi * Math.cos(Math.toRadians(newAnglei)));
+//            speedY = (float) (newSpeedi * Math.sin(Math.toRadians(newAnglei)));
+//            
+//            ball.speedX = (float) (newSpeedj * Math.cos(Math.toRadians(newAnglej)));
+//            ball.speedY = (float) (newSpeedj * Math.sin(Math.toRadians(newAnglej)));
+//		}
+//		
+//	}
 	public void move() {
 		x += speedX;
 		y += speedY;

@@ -32,7 +32,8 @@ public class MainWindow extends JFrame implements KeyListener{
 		ship.draw(g);
 
 		for (int a =0; a <=Game.info.allObjects.size()-1;a++){
-			Game.info.allObjects.get(a).update(this.getGraphics());
+			Game.info.allObjects.get(a).update(g);
+			Game.info.allObjects.get(a).draw(g);
 		}
 	}
 	
@@ -46,8 +47,8 @@ public class MainWindow extends JFrame implements KeyListener{
 		ship.draw(this.getGraphics());
 		this.paint(this.getGraphics());
 		
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	
 	public void keyPressed(KeyEvent event) {
 		this.repaint();
 
@@ -55,24 +56,24 @@ public class MainWindow extends JFrame implements KeyListener{
 		char keyChar = event.getKeyChar();
 		
 		if (keyInt == 37){
-			System.out.println("Left Key Pressed");
-			System.out.println(ship.xCoordinate + " " + ship.yCoordinate);
+	//		System.out.println("Left Key Pressed");
+		//	System.out.println(ship.xCoordinate + " " + ship.yCoordinate);
 			ship.xCoordinate-=6;
 			
 		} else if (keyInt == 38){
-			System.out.println("Up Key Pressed");
-			System.out.println(ship.xCoordinate + " " + ship.yCoordinate);
+	//		System.out.println("Up Key Pressed");
+	//		System.out.println(ship.xCoordinate + " " + ship.yCoordinate);
 			ship.yCoordinate-=6;
 
 
 		} else if (keyInt ==39){
-			System.out.println("Right Key Pressed");
-			System.out.println(ship.xCoordinate + " " + ship.yCoordinate);
+//			System.out.println("Right Key Pressed");
+//			System.out.println(ship.xCoordinate + " " + ship.yCoordinate);
 			ship.xCoordinate+=6;
 
 		} else if (keyInt ==40){
-			System.out.println("Down Key Pressed");
-			System.out.println(ship.xCoordinate + " " + ship.yCoordinate);
+	//		System.out.println("Down Key Pressed");
+	//		System.out.println(ship.xCoordinate + " " + ship.yCoordinate);
 			ship.yCoordinate+=6;
 
 		}
