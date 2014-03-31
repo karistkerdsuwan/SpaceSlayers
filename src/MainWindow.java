@@ -14,9 +14,26 @@ public class MainWindow extends JFrame implements KeyListener{
 	public Image bufferImage;
 	public Graphics bufferGraphic;
 
-	void update (StateInformation info){
-		super.paint(this.getGraphics());
+	public void update(Graphics g){
+		if(bufferImage == null){
+			bufferImage = createImage(this.getSize().width, this.getSize().width);
+			bufferGraphic = bufferImage.getGraphics();
+		}
+		bufferGraphic.setColor(getBackground());
+		bufferGraphic.fillRect(0, 0, this.getSize().width, this.getSize().height);
+		bufferGraphic.setColor(getForeground());
+		paint(bufferGraphic);
+		g.drawImage(bufferImage, 0, 0, this);
+	}
+	
+	public void paint (Graphics g){
+		super.paint(g);
 		
+		ship.draw(g);
+
+		for (int a =0; a <=Game.info.allObjects.size()-1;a++){
+			Game.info.allObjects.get(a).update(this.getGraphics());
+		}
 	}
 	
 	MainWindow(PlayerShip shipToMove){
@@ -40,23 +57,23 @@ public class MainWindow extends JFrame implements KeyListener{
 		if (keyInt == 37){
 			System.out.println("Left Key Pressed");
 			System.out.println(ship.xCoordinate + " " + ship.yCoordinate);
-			ship.xCoordinate-=4;
+			ship.xCoordinate-=6;
 			
 		} else if (keyInt == 38){
 			System.out.println("Up Key Pressed");
 			System.out.println(ship.xCoordinate + " " + ship.yCoordinate);
-			ship.yCoordinate-=4;
+			ship.yCoordinate-=6;
 
 
 		} else if (keyInt ==39){
 			System.out.println("Right Key Pressed");
 			System.out.println(ship.xCoordinate + " " + ship.yCoordinate);
-			ship.xCoordinate+=4;
+			ship.xCoordinate+=6;
 
 		} else if (keyInt ==40){
 			System.out.println("Down Key Pressed");
 			System.out.println(ship.xCoordinate + " " + ship.yCoordinate);
-			ship.yCoordinate+=4;
+			ship.yCoordinate+=6;
 
 		}
 

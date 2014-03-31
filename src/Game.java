@@ -7,24 +7,29 @@ import java.util.TimerTask;
 public class Game {
 	public PlayerShip ship;
 	public MainWindow gameWindow;
+	public static StateInformation info; 
 	
-	
-	public StateInformation info; 
 	Game (){
 		info = new StateInformation();
 		info.allObjects = new ArrayList();
 		ContainerBox box = new ContainerBox(2,2,700,700);
 		ship = new PlayerShip();		
 		gameWindow = new MainWindow(ship);	
-		Timer timer = new Timer();				
+		Timer timer = new Timer();	
+		Graphics g = gameWindow.getGraphics();
+		gameWindow.paint(g);
 
 		TimerTask task = new TimerTask(){
-			public void run (){
-				gameWindow.update(info);
-				System.out.println("running");
+			public void run (){			
+				Graphics g = gameWindow.getGraphics();
+
+				gameWindow.update(g);
+
+	//			gameWindow.update(gameWindow.getGraphics());
+	//			System.out.println("running");
 			}
 		};
-		timer.scheduleAtFixedRate(task, 700, 400);
+		timer.scheduleAtFixedRate(task, 200, 4);
 
 	}
 	public static void main (String[] args){
