@@ -126,8 +126,7 @@ public class GameObject {
 		
 	}
 	public void update(Graphics graphics) {
-		// TODO Auto-generated method stub
-		
+		x -= .75;
 	}
 
 }

@@ -3,8 +3,8 @@ import java.awt.Graphics;
 
 public class PlayerShip {
 	public int shieldStage;
-	public int xCoordinate;
-	public int yCoordinate;
+	public float xCoordinate;
+	public float yCoordinate;
 	
 	void update(){
 		
@@ -21,7 +21,7 @@ public class PlayerShip {
 	}
 	
 	void draw (Graphics g){
-		g.fillOval(xCoordinate, yCoordinate, 70, 40);
+		g.fillOval((int)xCoordinate, (int)yCoordinate, 70, 40);
 	}
 	
 }

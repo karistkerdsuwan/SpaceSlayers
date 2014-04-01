@@ -29,7 +29,7 @@ public class Game {
 
 			}
 		};
-		timer.scheduleAtFixedRate(task, 100, 3);
+		timer.scheduleAtFixedRate(task, 100, 1);
 
 	
 	
@@ -38,19 +38,25 @@ public class Game {
 
 			time++;
 			System.out.println(time);
-			if(time%1800==0){
+			if(time%1==0){
 				enemnySpawn(time);
 			}
 		}
 
 		private void enemnySpawn(int time) {
-	//		if(time%1800==0){
-				info.allObjects.add(new BasicEnemy(300, 300, 50, 5, 5));
-	//		}
+			int xRan = (int) (Math.random() * 300)+800;
+			int yRan = (int) (Math.random() * 700);
+			
+			System.out.println(xRan);
+			System.out.println(yRan);
+
+			System.out.println(ship.yCoordinate);
+			
+			info.allObjects.add(new BasicEnemy(xRan, yRan, 50, 5, 5));
 			
 		}
 	};
-	timer.scheduleAtFixedRate(spawn, 900, 900);
+	timer.scheduleAtFixedRate(spawn, 900, 800);
 
 }
 
