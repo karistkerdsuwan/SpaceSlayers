@@ -16,17 +16,15 @@ public class Game {
 		ContainerBox box = new ContainerBox(2,2,700,700);
 		ship = new PlayerShip();		
 		gameWindow = new MainWindow(ship);	
-		Timer timer = new Timer();	
 		Graphics g = gameWindow.getGraphics();
 		gameWindow.paint(g);
 		
-
+		Timer timer = new Timer();	
 		TimerTask task = new TimerTask(){
 			public void run (){			
 				Graphics g = gameWindow.getGraphics();
 
 				gameWindow.update(g);
-
 			}
 		};
 		timer.scheduleAtFixedRate(task, 100, 1);

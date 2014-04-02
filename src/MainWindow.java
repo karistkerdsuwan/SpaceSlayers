@@ -4,7 +4,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -14,13 +15,17 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
-public class MainWindow extends JFrame implements KeyListener{
-	private PlayerShip ship;
+public class MainWindow extends JFrame{
+	public static PlayerShip ship;
 	public Image bufferImage;
 	public Graphics bufferGraphic;
 	public JPanel panel;
-	private static Action PlayerMovement;
 	
+	public static boolean keepRight = false;
+	public static boolean keepLeft = false;
+	public static boolean keepUp = false;
+	public static boolean keepDown = false;
+
 	public void update(Graphics g){
 		if(bufferImage == null){
 			bufferImage = createImage(this.getSize().width, this.getSize().width);
@@ -51,7 +56,6 @@ public class MainWindow extends JFrame implements KeyListener{
 	//	this.setContentPane(panel);
 		this.setContentPane(panel);
 
-		this.addKeyListener(this);
 		this.setSize(new Dimension (700, 700));
 		this.setVisible(false);
 		this.setVisible(true);
@@ -63,73 +67,118 @@ public class MainWindow extends JFrame implements KeyListener{
 		
 		panel.requestFocus();
 		
+	//  This is better somehow, don't ask how, I don't know.
+		
+		Timer timer = new Timer();	
+		TimerTask task = new TimerTask(){
+			public void run (){		
+				if(MainWindow.keepDown){
+					MainWindow.ship.yCoordinate +=1;
+
+				}
+				if(MainWindow.keepRight){
+					MainWindow.ship.xCoordinate +=1;
+				}
+				if(MainWindow.keepUp){
+					MainWindow.ship.yCoordinate -=1;
+				}
+				if(MainWindow.keepLeft){
+					MainWindow.ship.xCoordinate -=1;
+		}
+			}
+		};
+		timer.scheduleAtFixedRate(task, 100, 7);
+
+		
 		InputMap map = new InputMap();
 		
-		PlayerMovement = new PlayerMovement();
-		
+		Action PlayerMovementUp = new PlayerMovementUp();
+		Action PlayerMovementDown = new PlayerMovementDown();
+		Action PlayerMovementLeft = new PlayerMovementLeft();
+		Action PlayerMovementRight = new PlayerMovementRight();
+
+		Action PlayerMovementUpRelease = new PlayerMovementUpRelease();
+		Action PlayerMovementDownRelease = new PlayerMovementDownRelease();
+		Action PlayerMovementLeftRelease = new PlayerMovementLeftRelease();
+		Action PlayerMovementRightRelease = new PlayerMovementRightRelease();
+
 		System.out.println(this.getFocusOwner());
 		
 		panel.getInputMap().put(KeyStroke.getKeyStroke("UP") , "upKey" );
-		panel.getActionMap().put("upKey", PlayerMovement);
+		panel.getActionMap().put("upKey", PlayerMovementUp);
 		
 		panel.getInputMap().put(KeyStroke.getKeyStroke("DOWN") , "downKey" );
-		panel.getActionMap().put("downKey", PlayerMovement);
-		
-		panel.getInputMap().put(KeyStroke.getKeyStroke("RIGHT") , "rightKey" );
-		panel.getActionMap().put("rightKey", PlayerMovement);
+		panel.getActionMap().put("downKey", PlayerMovementDown);
 		
 		panel.getInputMap().put(KeyStroke.getKeyStroke("LEFT") , "leftKey" );
-		panel.getActionMap().put("leftKey", PlayerMovement);
+		panel.getActionMap().put("leftKey", PlayerMovementLeft);
+		
+		panel.getInputMap().put(KeyStroke.getKeyStroke("RIGHT") , "rightKey" );
+		panel.getActionMap().put("rightKey", PlayerMovementRight);
 		
 		
+		panel.getInputMap().put(KeyStroke.getKeyStroke("released UP") , "upKeyRelease" );
+		panel.getActionMap().put("upKeyRelease", PlayerMovementUpRelease);
+		
+		panel.getInputMap().put(KeyStroke.getKeyStroke("released DOWN") , "downKeyRelease" );
+		panel.getActionMap().put("downKeyRelease", PlayerMovementDownRelease);
+		
+		panel.getInputMap().put(KeyStroke.getKeyStroke("released LEFT") , "leftKeyRelease" );
+		panel.getActionMap().put("leftKeyRelease", PlayerMovementLeftRelease);
+		
+		panel.getInputMap().put(KeyStroke.getKeyStroke("released RIGHT") , "rightKeyRelease" );
+		panel.getActionMap().put("rightKeyRelease", PlayerMovementRightRelease);
+
 
 	}
-	public void keyPressed(KeyEvent event) {
-		// CODE HERE DOES NOT ALLOW MULTIPLE BUTTONS TO BE HELD DOWN AT ONCE 
-		// AND HAS A DELAY WHILE STARTING TO MOVE
-		// CONSIDER IT BACKUP
-		
-//		this.repaint();
-//		keyLetGo=false;
-//
-//		int keyInt =event.getKeyCode();
-//		char keyChar = event.getKeyChar();
-//
-//		System.out.println(keyChar);
-//		if (keyInt == 37){
-//	//		System.out.println("Left Key Pressed");
-//		//	System.out.println(ship.xCoordinate + " " + ship.yCoordinate);
-//			ship.xCoordinate-=1;
-//			
-//		} else if (keyInt == 38){
-//	//		System.out.println("Up Key Pressed");
-//	//		System.out.println(ship.xCoordinate + " " + ship.yCoordinate);
-//			ship.yCoordinate-=1;
-//
-//
-//		} else if (keyInt ==39){
-////			System.out.println("Right Key Pressed");
-////			System.out.println(ship.xCoordinate + " " + ship.yCoordinate);
-//			ship.xCoordinate+=1;
-//
-//		} else if (keyInt ==40){
-//	//		System.out.println("Down Key Pressed");
-//	//		System.out.println(ship.xCoordinate + " " + ship.yCoordinate);
-//			ship.yCoordinate+=1;
-//		} 
+	static class PlayerMovementUp extends AbstractAction {
+		public void actionPerformed(ActionEvent event) {
+			keepUp = true;
 		}
-	public void keyReleased(KeyEvent event) {
 	}
-	public void keyTyped(KeyEvent event) {
-			
+	static class PlayerMovementDown extends AbstractAction {
+		public void actionPerformed(ActionEvent event) {
+			keepDown = true;
+		}
 	}
-	
-	static class PlayerMovement extends AbstractAction {
+	static class PlayerMovementLeft extends AbstractAction {
 
 		public void actionPerformed(ActionEvent event) {
-			System.out.println("SOMETHING WAS DONE");
-			
+			keepLeft = true;
 		}
 	}
+	static class PlayerMovementRight extends AbstractAction {
+		public void actionPerformed(ActionEvent event) {
+			keepRight = true;
+		}
+	}
+	
+	static class PlayerMovementUpRelease extends AbstractAction {
+		public void actionPerformed(ActionEvent event) {
+			keepUp = false;
+		}
+	}
+	static class PlayerMovementDownRelease extends AbstractAction {
+		public void actionPerformed(ActionEvent event) {
+			keepDown = false;
+		}
+	}
+	static class PlayerMovementLeftRelease extends AbstractAction {
+
+		public void actionPerformed(ActionEvent event) {
+			keepLeft = false;
+		}
+	}
+	static class PlayerMovementRightRelease extends AbstractAction {
+		public void actionPerformed(ActionEvent event) {
+			keepRight = false;
+
+		}
+	}
+	static class PlayerSpace extends AbstractAction {
+		public void actionPerformed(ActionEvent event) {
+		}
+	}
+
 
 }
