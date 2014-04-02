@@ -1,39 +1,13 @@
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.AbstractAction;
 import javax.swing.Action;
 
 
-public class PlayerMovement implements Action {
+static class PlayerMovement extends AbstractAction {
 
-	public void actionPerformed(ActionEvent arg0) {
-		System.out.println(arg0);
+	public void actionPerformed(ActionEvent evebt) {
+		System.out.println("SOMETHING WAS DONE");
 	}
-
-	public void addPropertyChangeListener(PropertyChangeListener listener) {
-
-	}
-
-	
-	public Object getValue(String key) {
-		return null;
-	}
-
-	public boolean isEnabled() {
-		return false;
-	}
-
-	public void putValue(String key, Object value) {
-
-	}
-
-	public void removePropertyChangeListener(PropertyChangeListener listener) {
-
-	}
-
-	@Override
-	public void setEnabled(boolean b) {
-
-	}
-
 }

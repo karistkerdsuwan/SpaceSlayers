@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.InputMap;
 import javax.swing.JFrame;
@@ -17,8 +18,8 @@ public class MainWindow extends JFrame implements KeyListener{
 	private PlayerShip ship;
 	public Image bufferImage;
 	public Graphics bufferGraphic;
-	public boolean keyLetGo=false;
 	public JPanel panel;
+	private static Action PlayerMovement;
 	
 	public void update(Graphics g){
 		if(bufferImage == null){
@@ -46,6 +47,8 @@ public class MainWindow extends JFrame implements KeyListener{
 	MainWindow(PlayerShip shipToMove){
 		this.setTitle("Space");		
 		panel = new JPanel();
+		panel.setName("SpacePanel");
+	//	this.setContentPane(panel);
 		this.setContentPane(panel);
 
 		this.addKeyListener(this);
@@ -57,22 +60,27 @@ public class MainWindow extends JFrame implements KeyListener{
 		this.paint(this.getGraphics());
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		panel.requestFocus();
+		
 		InputMap map = new InputMap();
 		
-		Action a = new PlayerMovement();
+		PlayerMovement = new PlayerMovement();
 		
+		System.out.println(this.getFocusOwner());
 		
 		panel.getInputMap().put(KeyStroke.getKeyStroke("UP") , "upKey" );
-		panel.getActionMap().put("upKey", a);
+		panel.getActionMap().put("upKey", PlayerMovement);
 		
 		panel.getInputMap().put(KeyStroke.getKeyStroke("DOWN") , "downKey" );
-		panel.getActionMap().put("downKey", a);
+		panel.getActionMap().put("downKey", PlayerMovement);
 		
 		panel.getInputMap().put(KeyStroke.getKeyStroke("RIGHT") , "rightKey" );
-		panel.getActionMap().put("rightKey", a);
+		panel.getActionMap().put("rightKey", PlayerMovement);
 		
 		panel.getInputMap().put(KeyStroke.getKeyStroke("LEFT") , "leftKey" );
-		panel.getActionMap().put("leftKey", a);
+		panel.getActionMap().put("leftKey", PlayerMovement);
+		
 		
 
 	}
@@ -111,9 +119,17 @@ public class MainWindow extends JFrame implements KeyListener{
 //		} 
 		}
 	public void keyReleased(KeyEvent event) {
-		keyLetGo=true;
 	}
 	public void keyTyped(KeyEvent event) {
 			
 	}
+	
+	static class PlayerMovement extends AbstractAction {
+
+		public void actionPerformed(ActionEvent event) {
+			System.out.println("SOMETHING WAS DONE");
+			
+		}
+	}
+
 }

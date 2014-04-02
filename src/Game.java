@@ -37,7 +37,7 @@ public class Game {
 		public void run (){			
 
 			time++;
-			System.out.println(time);
+	//		System.out.println(time);
 			if(time%1==0){
 				enemnySpawn(time);
 			}
@@ -47,10 +47,10 @@ public class Game {
 			int xRan = (int) (Math.random() * 300)+800;
 			int yRan = (int) (Math.random() * 700);
 			
-			System.out.println(xRan);
-			System.out.println(yRan);
+//			System.out.println(xRan);
+//			System.out.println(yRan);
 
-			System.out.println(ship.yCoordinate);
+//			System.out.println(ship.yCoordinate);
 			
 			info.allObjects.add(new BasicEnemy(xRan, yRan, 50, 5, 5));
 			
