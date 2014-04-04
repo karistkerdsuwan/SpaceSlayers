@@ -23,8 +23,9 @@ public class Game {
 		TimerTask task = new TimerTask(){
 			public void run (){			
 				Graphics g = gameWindow.getGraphics();
-
+				
 				gameWindow.update(g);
+				gameWindow.ship.update();
 			}
 		};
 		timer.scheduleAtFixedRate(task, 100, 1);
@@ -35,8 +36,7 @@ public class Game {
 		public void run (){			
 
 			time++;
-	//		System.out.println(time);
-			if(time%1==0){
+			if(time%4==0){
 				enemnySpawn(time);
 			}
 		}
@@ -55,11 +55,16 @@ public class Game {
 		}
 	};
 	timer.scheduleAtFixedRate(spawn, 900, 800);
+	
+		if(ship.dead){
+			task.cancel();
+			spawn.cancel();
+			timer.cancel();
+			
+		}
 
 }
 
-	
-	
 	public static void main (String[] args){
 		Game game = new Game();
 	}

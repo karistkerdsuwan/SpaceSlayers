@@ -35,15 +35,14 @@ public class GameObject {
 	}
 
 	public void draw(Graphics g) {
-		g.setColor(color);
+		g.setColor(color.red);
 		g.fillOval((int)(x - radius), (int)(y - radius), (int)(2 * radius), (int)(2 * radius));
 	}
 
 	public void remove(){
-		boolean loop = true;
-		for(int i=0;i<StateInformation.allObjects.size();)
+		for(int i=0;i<StateInformation.allObjects.size();i++)
 			if(StateInformation.allObjects.get(i).equals(this))
-				StateInformation.allObjects.get(i).remove();
+				StateInformation.allObjects.remove(i);
 	}
 	public void collideWalls(ContainerBox box) {
 		// Get the ball's bounds, offset by the radius of the ball
@@ -120,12 +119,15 @@ public class GameObject {
 //		}
 //		
 //	}
-	public void move() {
-		x += speedX;
-		y += speedY;
-		
-	}
+//	public void move() {
+//		x += speedX;
+//		y += speedY;
+//		
+//	}
 	public void update(Graphics graphics) {
+		if(this.x<-50){
+			this.remove();
+		}
 		x -= .75;
 	}
 

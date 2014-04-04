@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -7,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.sound.midi.MidiDevice.Info;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.InputMap;
@@ -25,7 +27,7 @@ public class MainWindow extends JFrame{
 	public static boolean keepLeft = false;
 	public static boolean keepUp = false;
 	public static boolean keepDown = false;
-
+	
 	public void update(Graphics g){
 		if(bufferImage == null){
 			bufferImage = createImage(this.getSize().width, this.getSize().width);
@@ -44,17 +46,19 @@ public class MainWindow extends JFrame{
 		ship.draw(g);
 
 		for (int a =0; a <=Game.info.allObjects.size()-1;a++){
-			Game.info.allObjects.get(a).update(g);
-			Game.info.allObjects.get(a).draw(g);
+
+				Game.info.allObjects.get(a).draw(g);				
+				Game.info.allObjects.get(a).update(g);
 		}
 	}
 	
 	MainWindow(PlayerShip shipToMove){
 		this.setTitle("Space");		
+		this.setFocusable(false);
 		panel = new JPanel();
 		panel.setName("SpacePanel");
-	//	this.setContentPane(panel);
 		this.setContentPane(panel);
+		panel.setBackground(Color.black);
 
 		this.setSize(new Dimension (700, 700));
 		this.setVisible(false);
@@ -67,27 +71,27 @@ public class MainWindow extends JFrame{
 		
 		panel.requestFocus();
 		
-	//  This is better somehow, don't ask how, I don't know.
+	//  Adds and subracts from the position of the ship based on player input during a loop;
+	//	While the player does not let go of the movement button, the ship moves
 		
 		Timer timer = new Timer();	
 		TimerTask task = new TimerTask(){
 			public void run (){		
-				if(MainWindow.keepDown){
+				if(MainWindow.keepDown&ship.yCoordinate<670){
 					MainWindow.ship.yCoordinate +=1;
-
 				}
-				if(MainWindow.keepRight){
+				if(MainWindow.keepRight&ship.xCoordinate<700){
 					MainWindow.ship.xCoordinate +=1;
 				}
-				if(MainWindow.keepUp){
+				if(MainWindow.keepUp&ship.yCoordinate>0){
 					MainWindow.ship.yCoordinate -=1;
 				}
-				if(MainWindow.keepLeft){
+				if(MainWindow.keepLeft&ship.xCoordinate>0){
 					MainWindow.ship.xCoordinate -=1;
 		}
 			}
 		};
-		timer.scheduleAtFixedRate(task, 100, 7);
+		timer.scheduleAtFixedRate(task, 100, 5);
 
 		
 		InputMap map = new InputMap();
@@ -102,8 +106,6 @@ public class MainWindow extends JFrame{
 		Action PlayerMovementLeftRelease = new PlayerMovementLeftRelease();
 		Action PlayerMovementRightRelease = new PlayerMovementRightRelease();
 
-		System.out.println(this.getFocusOwner());
-		
 		panel.getInputMap().put(KeyStroke.getKeyStroke("UP") , "upKey" );
 		panel.getActionMap().put("upKey", PlayerMovementUp);
 		
@@ -129,8 +131,8 @@ public class MainWindow extends JFrame{
 		panel.getInputMap().put(KeyStroke.getKeyStroke("released RIGHT") , "rightKeyRelease" );
 		panel.getActionMap().put("rightKeyRelease", PlayerMovementRightRelease);
 
-
 	}
+	
 	static class PlayerMovementUp extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
 			keepUp = true;
