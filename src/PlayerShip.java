@@ -11,13 +11,11 @@ public class PlayerShip {
 	public int xRadius;
 	public int yRadius;
 	public boolean dead;
-	public int touchedNum =0;
 	
-	boolean contact (float x, float y) {
-		if(Math.sqrt((double) Math.pow((x - this.xCoordinate),2))<this.xRadius
-			&&(Math.sqrt((double) Math.pow((y - this.yCoordinate),2)) <this.yRadius)){
+	boolean contact (float x, float y, float checkXRadius, float checkYRadius) {
+		if(Math.sqrt((double) Math.pow((x - (this.xCoordinate+25)),2))<this.xRadius+checkXRadius
+			&&(Math.sqrt((double) Math.pow((y - this.yCoordinate),2)) <this.yRadius+checkYRadius)){
 			
-			System.out.println(Math.sqrt((double) Math.pow((x - this.xCoordinate),2)));
 			System.out.println(Math.sqrt((double) Math.pow((y - this.yCoordinate),2)));
 			return true;
 		} else {
@@ -28,11 +26,9 @@ public class PlayerShip {
 	
 	void update(){
 		for (int i=0; i<StateInformation.allObjects.size();i++){
-			if(contact(StateInformation.allObjects.get(i).x, StateInformation.allObjects.get(i).y)){
-				dead = true;
-				touchedNum++;
-				System.out.println("TOUCHED  " + touchedNum);
-				
+			if(contact(StateInformation.allObjects.get(i).x, StateInformation.allObjects.get(i).y,
+					StateInformation.allObjects.get(i).radius, StateInformation.allObjects.get(i).radius)){
+				dead = true;				
 			}
 		}
 	}

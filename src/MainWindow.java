@@ -80,13 +80,13 @@ public class MainWindow extends JFrame{
 				if(MainWindow.keepDown&ship.yCoordinate<670){
 					MainWindow.ship.yCoordinate +=1;
 				}
-				if(MainWindow.keepRight&ship.xCoordinate<700){
+				if(MainWindow.keepRight&ship.xCoordinate<670){
 					MainWindow.ship.xCoordinate +=1;
 				}
 				if(MainWindow.keepUp&ship.yCoordinate>0){
 					MainWindow.ship.yCoordinate -=1;
 				}
-				if(MainWindow.keepLeft&ship.xCoordinate>0){
+				if(MainWindow.keepLeft){//&ship.xCoordinate>0){
 					MainWindow.ship.xCoordinate -=1;
 		}
 			}
