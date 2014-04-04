@@ -15,8 +15,6 @@ public class PlayerShip {
 	boolean contact (float x, float y, float checkXRadius, float checkYRadius) {
 		if(Math.sqrt((double) Math.pow((x - (this.xCoordinate+25)),2))<this.xRadius+checkXRadius
 			&&(Math.sqrt((double) Math.pow((y - this.yCoordinate),2)) <this.yRadius+checkYRadius)){
-			
-			System.out.println(Math.sqrt((double) Math.pow((y - this.yCoordinate),2)));
 			return true;
 		} else {
 			return false;

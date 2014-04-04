@@ -9,6 +9,7 @@ public class Game {
 	public MainWindow gameWindow;
 	public static StateInformation info; 
 	public int time;
+	Timer timer = new Timer();	
 	
 	Game (){
 		info = new StateInformation();
@@ -19,10 +20,14 @@ public class Game {
 		Graphics g = gameWindow.getGraphics();
 		gameWindow.paint(g);
 		
-		Timer timer = new Timer();	
 		TimerTask task = new TimerTask(){
 			public void run (){			
 				Graphics g = gameWindow.getGraphics();
+				
+				if(ship.dead){
+					stop();
+					System.out.println("Dead, all movement should cease");
+				}
 				
 				gameWindow.update(g);
 				gameWindow.ship.update();
@@ -55,15 +60,12 @@ public class Game {
 		}
 	};
 	timer.scheduleAtFixedRate(spawn, 900, 800);
-	
-		if(ship.dead){
-			task.cancel();
-			spawn.cancel();
-			timer.cancel();
-			
-		}
-
 }
+	
+	public void stop (){
+		timer.cancel();
+
+	}
 
 	public static void main (String[] args){
 		Game game = new Game();
