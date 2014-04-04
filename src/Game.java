@@ -64,6 +64,7 @@ public class Game {
 	
 	public void stop (){
 		timer.cancel();
+		
 
 	}
 
