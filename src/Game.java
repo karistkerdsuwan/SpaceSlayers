@@ -9,6 +9,7 @@ public class Game {
 	public MainWindow gameWindow;
 	public static StateInformation info; 
 	public int time;
+	public int score;
 	Timer timer = new Timer();	
 	
 	Game (){
@@ -64,8 +65,8 @@ public class Game {
 	
 	public void stop (){
 		timer.cancel();
-		
-
+		score = time;
+		gameWindow.displayScore(score);
 	}
 
 	public static void main (String[] args){

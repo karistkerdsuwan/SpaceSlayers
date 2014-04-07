@@ -181,6 +181,10 @@ public class MainWindow extends JFrame{
 		public void actionPerformed(ActionEvent event) {
 		}
 	}
+	public void displayScore(int score) {
+		//Code for game showing score and all that goes here
+		
+	}
 
 
 }
