@@ -22,12 +22,13 @@ public class MainWindow extends JFrame{
 	public Image bufferImage;
 	public Graphics bufferGraphic;
 	public JPanel panel;
-	
+	public int finalScore;
+
 	public static boolean keepRight = false;
 	public static boolean keepLeft = false;
 	public static boolean keepUp = false;
 	public static boolean keepDown = false;
-	
+
 	public void update(Graphics g){
 		if(bufferImage == null){
 			bufferImage = createImage(this.getSize().width, this.getSize().width);
@@ -39,19 +40,29 @@ public class MainWindow extends JFrame{
 		paint(bufferGraphic);
 		g.drawImage(bufferImage, 0, 0, this);
 	}
-	
-	public void paint (Graphics g){
-		super.paint(g);
-		
-		ship.draw(g);
-		
-		for (int a =0; a <=Game.info.allObjects.size()-1;a++){
 
-				Game.info.allObjects.get(a).draw(g);				
-				Game.info.allObjects.get(a).update(g);
-		}
+	public void setScore (int score){
+		this.finalScore = score;
 	}
-	
+
+	public void paint (Graphics g){			
+		super.paint(g);
+		ship.draw(g);
+		for (int a =0; a <=Game.info.allObjects.size()-1;a++){
+			Game.info.allObjects.get(a).draw(g);		
+		}
+
+		if(!ship.dead){
+			for (int a =0; a <=Game.info.allObjects.size()-1;a++){
+				Game.info.allObjects.get(a).update(g);
+			}
+		} else {
+			g.setColor(new Color (255, 255, 255, 255));
+			g.drawRect(0, 0, 750, 750);
+		}
+
+	}
+
 	MainWindow(PlayerShip shipToMove){
 		this.setTitle("Space");		
 		this.setFocusable(false);
@@ -66,36 +77,38 @@ public class MainWindow extends JFrame{
 		ship = shipToMove;
 		ship.draw(this.getGraphics());
 		this.paint(this.getGraphics());
-		
+
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		panel.requestFocus();
-		
-	//  Adds and subracts from the position of the ship based on player input during a loop;
-	//	While the player does not let go of the movement button, the ship moves
-		
+
+		//  Adds and subracts from the position of the ship based on player input during a loop;
+		//	While the player does not let go of the movement button, the ship moves
+
 		Timer timer = new Timer();	
 		TimerTask task = new TimerTask(){
 			public void run (){		
-				if(MainWindow.keepDown&ship.yCoordinate<670){
-					MainWindow.ship.yCoordinate +=1;
+				if(!ship.dead){
+					if(MainWindow.keepDown&ship.yCoordinate<670){
+						MainWindow.ship.yCoordinate +=1;
+					}
+					if(MainWindow.keepRight&ship.xCoordinate<670){
+						MainWindow.ship.xCoordinate +=1;
+					}
+					if(MainWindow.keepUp&ship.yCoordinate>0){
+						MainWindow.ship.yCoordinate -=1;
+					}
+					if(MainWindow.keepLeft){//&ship.xCoordinate>0){
+						MainWindow.ship.xCoordinate -=1;
+					}
 				}
-				if(MainWindow.keepRight&ship.xCoordinate<670){
-					MainWindow.ship.xCoordinate +=1;
-				}
-				if(MainWindow.keepUp&ship.yCoordinate>0){
-					MainWindow.ship.yCoordinate -=1;
-				}
-				if(MainWindow.keepLeft){//&ship.xCoordinate>0){
-					MainWindow.ship.xCoordinate -=1;
-		}
 			}
 		};
 		timer.scheduleAtFixedRate(task, 100, 5);
 
-		
+
 		InputMap map = new InputMap();
-		
+
 		Action PlayerMovementUp = new PlayerMovementUp();
 		Action PlayerMovementDown = new PlayerMovementDown();
 		Action PlayerMovementLeft = new PlayerMovementLeft();
@@ -108,31 +121,31 @@ public class MainWindow extends JFrame{
 
 		panel.getInputMap().put(KeyStroke.getKeyStroke("UP") , "upKey" );
 		panel.getActionMap().put("upKey", PlayerMovementUp);
-		
+
 		panel.getInputMap().put(KeyStroke.getKeyStroke("DOWN") , "downKey" );
 		panel.getActionMap().put("downKey", PlayerMovementDown);
-		
+
 		panel.getInputMap().put(KeyStroke.getKeyStroke("LEFT") , "leftKey" );
 		panel.getActionMap().put("leftKey", PlayerMovementLeft);
-		
+
 		panel.getInputMap().put(KeyStroke.getKeyStroke("RIGHT") , "rightKey" );
 		panel.getActionMap().put("rightKey", PlayerMovementRight);
-		
-		
+
+
 		panel.getInputMap().put(KeyStroke.getKeyStroke("released UP") , "upKeyRelease" );
 		panel.getActionMap().put("upKeyRelease", PlayerMovementUpRelease);
-		
+
 		panel.getInputMap().put(KeyStroke.getKeyStroke("released DOWN") , "downKeyRelease" );
 		panel.getActionMap().put("downKeyRelease", PlayerMovementDownRelease);
-		
+
 		panel.getInputMap().put(KeyStroke.getKeyStroke("released LEFT") , "leftKeyRelease" );
 		panel.getActionMap().put("leftKeyRelease", PlayerMovementLeftRelease);
-		
+
 		panel.getInputMap().put(KeyStroke.getKeyStroke("released RIGHT") , "rightKeyRelease" );
 		panel.getActionMap().put("rightKeyRelease", PlayerMovementRightRelease);
 
 	}
-	
+
 	static class PlayerMovementUp extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
 			keepUp = true;
@@ -154,7 +167,7 @@ public class MainWindow extends JFrame{
 			keepRight = true;
 		}
 	}
-	
+
 	static class PlayerMovementUpRelease extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
 			keepUp = false;
@@ -166,7 +179,6 @@ public class MainWindow extends JFrame{
 		}
 	}
 	static class PlayerMovementLeftRelease extends AbstractAction {
-
 		public void actionPerformed(ActionEvent event) {
 			keepLeft = false;
 		}
@@ -181,10 +193,5 @@ public class MainWindow extends JFrame{
 		public void actionPerformed(ActionEvent event) {
 		}
 	}
-	public void displayScore(int score) {
-		//Code for game showing score and all that goes here
-		
-	}
-
 
 }

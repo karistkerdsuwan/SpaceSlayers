@@ -49,7 +49,7 @@ public class PlayerShip {
 	}
 	
 	PlayerShip(){
-		shieldStage = 5;
+		shieldStage = 1;
 		xCoordinate = 50;
 		yCoordinate = 250;
 		this.yRadius=21;

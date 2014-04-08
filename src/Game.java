@@ -27,16 +27,13 @@ public class Game {
 				
 				if(ship.dead){
 					stop();
-					System.out.println("Dead, all movement should cease");
+				} else {
+					gameWindow.update(g);
+					gameWindow.ship.update();
 				}
-				
-				gameWindow.update(g);
-				gameWindow.ship.update();
 			}
 		};
 		timer.scheduleAtFixedRate(task, 100, 1);
-
-	
 	
 	TimerTask spawn = new TimerTask(){
 		public void run (){			
@@ -53,20 +50,18 @@ public class Game {
 			
 //			System.out.println(xRan);
 //			System.out.println(yRan);
-
 //			System.out.println(ship.yCoordinate);
 			
 			info.allObjects.add(new BasicEnemy(xRan, yRan, 50, 5, 5));
-			
 		}
 	};
 	timer.scheduleAtFixedRate(spawn, 900, 800);
 }
 	
 	public void stop (){
+		gameWindow.setScore(time);
 		timer.cancel();
-		score = time;
-		gameWindow.displayScore(score);
+
 	}
 
 	public static void main (String[] args){

@@ -129,6 +129,7 @@ public class GameObject {
 			this.remove();
 		}
 		x -= .75;
+		System.out.println(x);
 	}
 
 }
