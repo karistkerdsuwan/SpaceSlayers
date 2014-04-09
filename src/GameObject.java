@@ -8,31 +8,33 @@ public class GameObject {
 	float radius;         
 	private Color color; 
 	private static final Color DEFAULT_COLOR = Color.BLUE;
-
-	public GameObject(int width,int height){
-		Random rand = new Random();
-	    radius = 60;
-	    x = rand.nextInt(width - (int)radius * 2 - 20) + radius + 10;
-	    y = rand.nextInt(height - (int)radius * 2 - 20) + radius + 10;
-	    int speed = rand.nextInt(11) + 5;
-	    int angleInDegree = rand.nextInt(360);
-	    speedX = (float)(speed * (float)Math.cos(Math.toRadians(angleInDegree)));
-	    speedY = (float)(-speed * (float)Math.sin(Math.toRadians(angleInDegree)));
-	}
-	public GameObject(float x, float y, float radius, float speed, float angleInDegree,
-			Color color) {
+	public String type;
+//	public GameObject(int width,int height){
+//		Random rand = new Random();
+//	    radius = 60;
+//	    x = rand.nextInt(width - (int)radius * 2 - 20) + radius + 10;
+//	    y = rand.nextInt(height - (int)radius * 2 - 20) + radius + 10;
+//	    int speed = rand.nextInt(11) + 5;
+//	    int angleInDegree = rand.nextInt(360);
+//	    speedX = (float)(speed * (float)Math.cos(Math.toRadians(angleInDegree)));
+//	    speedY = (float)(-speed * (float)Math.sin(Math.toRadians(angleInDegree)));
+//	}
+	public GameObject(float x, float y, float radius, float speedX, float speedY, Color color) {
 		this.x = x;
 		this.y = y;
+		this.speedX = speedX;
+		this.speedY = speedY;
 		// Convert (speed, angle) to (x, y), with y-axis inverted
-		this.speedX = (float)(speed * Math.cos(Math.toRadians(angleInDegree)));
-		this.speedY = (float)(-speed * (float)Math.sin(Math.toRadians(angleInDegree)));
+//		this.speedX = (float)(speed * Math.cos(Math.toRadians(angleInDegree)));
+//		this.speedY = (float)(-speed * (float)Math.sin(Math.toRadians(angleInDegree)));
 		this.radius = radius;
 		this.color = color;
+		this.type = "enemy";
 	}
 
-	public GameObject(float x, float y, float radius, float speed, float angleInDegree) {
-		this(x, y, radius, speed, angleInDegree, DEFAULT_COLOR);
-	}
+//	public GameObject(float x, float y, float radius, float speed, float angleInDegree) {
+//		this(x, y, radius, speed, angleInDegree, DEFAULT_COLOR);
+//	}
 
 	public void draw(Graphics g) {
 		g.setColor(color.red);
@@ -44,6 +46,7 @@ public class GameObject {
 			if(StateInformation.allObjects.get(i).equals(this))
 				StateInformation.allObjects.remove(i);
 	}
+	
 	public void collideWalls(ContainerBox box) {
 		// Get the ball's bounds, offset by the radius of the ball
 		float ballMinX = box.minX + radius;
@@ -68,14 +71,14 @@ public class GameObject {
 		}
 	}
 
-	public float getSpeed() {
-		return (float)Math.sqrt(speedX * speedX + speedY * speedY);
-	}
+//	public float getSpeed() {
+//		return (float)Math.sqrt(speedX * speedX + speedY * speedY);
+//	}
 
-	/** Return the direction of movement in degrees (counter-clockwise). */
-	public float getMoveAngle() {
-		return (float)Math.toDegrees(Math.atan2(-speedY, speedX));
-	}
+//	/** Return the direction of movement in degrees (counter-clockwise). */
+//	public float getMoveAngle() {
+//		return (float)Math.toDegrees(Math.atan2(-speedY, speedX));
+//	}
 	
 //	public void collideBalls(Ball ball) {
 //		float distance = (float) Math.sqrt(((this.x - ball.x) * (this.x - ball.x))
@@ -125,11 +128,11 @@ public class GameObject {
 //		
 //	}
 	public void update(Graphics graphics) {
-		if(this.x<-50){
+		if(this.x<-50||this.y<-10||this.y>800){
 			this.remove();
 		}
-		x -= .75;
-		System.out.println(x);
+		y -= speedY;
+		x -= speedX;
 	}
 
 }

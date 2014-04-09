@@ -57,8 +57,10 @@ public class MainWindow extends JFrame{
 				Game.info.allObjects.get(a).update(g);
 			}
 		} else {
-			g.setColor(new Color (255, 255, 255, 255));
-			g.drawRect(0, 0, 750, 750);
+			
+			// death animation goes here
+			g.setColor(new Color (225, 225, 225, 120));
+			g.fillRect(0, 0, 750, 750);
 		}
 
 	}
@@ -90,16 +92,16 @@ public class MainWindow extends JFrame{
 			public void run (){		
 				if(!ship.dead){
 					if(MainWindow.keepDown&ship.yCoordinate<670){
-						MainWindow.ship.yCoordinate +=1;
+						MainWindow.ship.yCoordinate +=1.1;
 					}
 					if(MainWindow.keepRight&ship.xCoordinate<670){
-						MainWindow.ship.xCoordinate +=1;
+						MainWindow.ship.xCoordinate +=1.1;
 					}
 					if(MainWindow.keepUp&ship.yCoordinate>0){
-						MainWindow.ship.yCoordinate -=1;
+						MainWindow.ship.yCoordinate -=1.1;
 					}
 					if(MainWindow.keepLeft){//&ship.xCoordinate>0){
-						MainWindow.ship.xCoordinate -=1;
+						MainWindow.ship.xCoordinate -=1.1;
 					}
 				}
 			}

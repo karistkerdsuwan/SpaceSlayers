@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -27,6 +28,7 @@ public class Game {
 				
 				if(ship.dead){
 					stop();
+					gameWindow.update(gameWindow.getGraphics());
 				} else {
 					gameWindow.update(g);
 					gameWindow.ship.update();
@@ -52,7 +54,7 @@ public class Game {
 //			System.out.println(yRan);
 //			System.out.println(ship.yCoordinate);
 			
-			info.allObjects.add(new BasicEnemy(xRan, yRan, 50, 5, 5));
+			info.allObjects.add(new BasicEnemy(xRan, yRan, 50, (float) .75, 0, Color.gray));
 		}
 	};
 	timer.scheduleAtFixedRate(spawn, 900, 800);
