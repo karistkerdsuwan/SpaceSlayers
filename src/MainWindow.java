@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -60,7 +61,14 @@ public class MainWindow extends JFrame{
 			
 			// death animation goes here
 			g.setColor(new Color (225, 225, 225, 120));
-			g.fillRect(0, 0, 750, 750);
+			g.fillRect(0, 0, 950, 750);
+			g.setColor(Color.WHITE);
+			g.setFont(this.getFont().deriveFont(Font.BOLD).deriveFont(new Float(300)));
+			g.drawString("DEAD", 0, 300);
+			g.setFont(this.getFont().deriveFont(Font.BOLD).deriveFont(new Float(100)));
+			g.drawString("SCORE: "+ String.valueOf(finalScore), 15, 400);
+			
+			
 		}
 
 	}
@@ -73,7 +81,7 @@ public class MainWindow extends JFrame{
 		this.setContentPane(panel);
 		panel.setBackground(Color.black);
 
-		this.setSize(new Dimension (700, 700));
+		this.setSize(new Dimension (900, 700));
 		this.setVisible(false);
 		this.setVisible(true);
 		ship = shipToMove;
@@ -91,13 +99,13 @@ public class MainWindow extends JFrame{
 		TimerTask task = new TimerTask(){
 			public void run (){		
 				if(!ship.dead){
-					if(MainWindow.keepDown&ship.yCoordinate<670){
+					if(MainWindow.keepDown&ship.yCoordinate<675){
 						MainWindow.ship.yCoordinate +=1.1;
 					}
-					if(MainWindow.keepRight&ship.xCoordinate<670){
+					if(MainWindow.keepRight&ship.xCoordinate<870){
 						MainWindow.ship.xCoordinate +=1.1;
 					}
-					if(MainWindow.keepUp&ship.yCoordinate>0){
+					if(MainWindow.keepUp&ship.yCoordinate>10){
 						MainWindow.ship.yCoordinate -=1.1;
 					}
 					if(MainWindow.keepLeft){//&ship.xCoordinate>0){
@@ -145,7 +153,6 @@ public class MainWindow extends JFrame{
 
 		panel.getInputMap().put(KeyStroke.getKeyStroke("released RIGHT") , "rightKeyRelease" );
 		panel.getActionMap().put("rightKeyRelease", PlayerMovementRightRelease);
-
 	}
 
 	static class PlayerMovementUp extends AbstractAction {
@@ -188,7 +195,6 @@ public class MainWindow extends JFrame{
 	static class PlayerMovementRightRelease extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
 			keepRight = false;
-
 		}
 	}
 	static class PlayerSpace extends AbstractAction {

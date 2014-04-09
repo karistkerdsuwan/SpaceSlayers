@@ -47,17 +47,17 @@ public class Game {
 		}
 
 		private void enemnySpawn(int time) {
-			int xRan = (int) (Math.random() * 300)+800;
+			int xRan = (int) (Math.random() * 300)+900;
 			int yRan = (int) (Math.random() * 700);
 			
 //			System.out.println(xRan);
 //			System.out.println(yRan);
 //			System.out.println(ship.yCoordinate);
 			
-			info.allObjects.add(new BasicEnemy(xRan, yRan, 50, (float) .75, 0, Color.gray));
+			info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray));
 		}
 	};
-	timer.scheduleAtFixedRate(spawn, 900, 800);
+	timer.scheduleAtFixedRate(spawn, 0, 200); // (spawn,  900, 800);
 }
 	
 	public void stop (){

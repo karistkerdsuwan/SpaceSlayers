@@ -59,13 +59,12 @@ public class PlayerShip {
 		yCoordinate = 250;
 		this.yRadius=21;
 		this.xRadius=36;
-
 	}
+	
 	void flicker(){
 		invincible = 800;
 
 	}
-
 	void draw (Graphics g){
 
 		// if invincible is modulus divisible by 150, then change color one way and then change back
