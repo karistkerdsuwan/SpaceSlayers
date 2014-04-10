@@ -2,6 +2,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class PlayerShip {
@@ -9,12 +11,11 @@ public class PlayerShip {
 	public float xCoordinate;
 	public float yCoordinate;
 	public int size = 30;
-	public int flickerTime;
 	public int xRadius;
 	public int yRadius;
 	public boolean dead;
 	public static int invincible =0;
-
+	
 	boolean contact (float x, float y, float checkXRadius, float checkYRadius) {
 		if(Math.sqrt((double) Math.pow((x - (this.xCoordinate+25)),2))<this.xRadius+checkXRadius
 				&&(Math.sqrt((double) Math.pow((y - this.yCoordinate),2)) <this.yRadius+checkYRadius)){
@@ -25,10 +26,9 @@ public class PlayerShip {
 
 	}
 
-	void update(){
+	void update(Graphics g){
 		if(invincible!=0){
 			invincible--;
-			System.out.println(invincible);
 		}
 
 		for (int i=0; i<StateInformation.allObjects.size();i++){
@@ -37,7 +37,7 @@ public class PlayerShip {
 				if(StateInformation.allObjects.get(i).type.equals("enemy")){
 					if(invincible==0){
 						shieldStage--;
-						flicker();
+						flicker(g);
 					} else {
 					}
 
@@ -54,16 +54,15 @@ public class PlayerShip {
 	}
 
 	PlayerShip(){
-		shieldStage = 1;
+		shieldStage = 5;
 		xCoordinate = 50;
 		yCoordinate = 250;
 		this.yRadius=21;
 		this.xRadius=36;
 	}
 	
-	void flicker(){
-		invincible = 800;
-
+	void flicker(Graphics g){
+		invincible = 800;		
 	}
 	void draw (Graphics g){
 

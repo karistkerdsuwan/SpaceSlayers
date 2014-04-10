@@ -54,6 +54,18 @@ public class MainWindow extends JFrame{
 		}
 
 		if(!ship.dead){
+			if(ship.invincible>680){
+				if(ship.shieldStage==4){
+					g.setColor(new Color (200,200,200,120));
+				} else if(ship.shieldStage==3){
+					g.setColor(new Color (210,210,210,140));
+				} else if(ship.shieldStage==2){
+					g.setColor(new Color (220,220,220,160));
+				} else {
+					g.setColor(new Color (225,225,225,180));
+				}
+				g.fillRect(0, 0, 950, 900);
+			}
 			for (int a =0; a <=Game.info.allObjects.size()-1;a++){
 				Game.info.allObjects.get(a).update(g);
 			}
@@ -67,10 +79,8 @@ public class MainWindow extends JFrame{
 			g.drawString("DEAD", 0, 300);
 			g.setFont(this.getFont().deriveFont(Font.BOLD).deriveFont(new Float(100)));
 			g.drawString("SCORE: "+ String.valueOf(finalScore), 15, 400);
-			
-			
+				
 		}
-
 	}
 
 	MainWindow(PlayerShip shipToMove){

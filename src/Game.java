@@ -11,9 +11,11 @@ public class Game {
 	public static StateInformation info; 
 	public int time;
 	public int score;
+	public boolean slow=false;
 	Timer timer = new Timer();	
 	
 	Game (){
+		slow=false;
 		info = new StateInformation();
 		info.allObjects = new ArrayList();
 		ContainerBox box = new ContainerBox(2,2,700,700);
@@ -25,18 +27,31 @@ public class Game {
 		TimerTask task = new TimerTask(){
 			public void run (){			
 				Graphics g = gameWindow.getGraphics();
-				
 				if(ship.dead){
 					stop();
 					gameWindow.update(gameWindow.getGraphics());
 				} else {
+					if(ship.invincible!=0){
+						
+					}
+					// For fun and great glory
+					
+//					if(ship.invincible>400){
+//						for(int counter=0;counter<StateInformation.allObjects.size();counter++){
+//							StateInformation.allObjects.get(counter).speedX-=.05;
+//						}
+//					} else {
+//						if(ship.invincible!=0)
+//						for(int counter=0;counter<StateInformation.allObjects.size();counter++){
+//							StateInformation.allObjects.get(counter).speedX+=.05;
+//						}
+//					}
 					gameWindow.update(g);
-					gameWindow.ship.update();
+					gameWindow.ship.update(g);
 				}
 			}
 		};
 		timer.scheduleAtFixedRate(task, 100, 1);
-	
 	TimerTask spawn = new TimerTask(){
 		public void run (){			
 
@@ -57,7 +72,7 @@ public class Game {
 			info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray));
 		}
 	};
-	timer.scheduleAtFixedRate(spawn, 0, 200); // (spawn,  900, 800);
+	timer.scheduleAtFixedRate(spawn, 0, 20); // (spawn,  900, 800);
 }
 	
 	public void stop (){
