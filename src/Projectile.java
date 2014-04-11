@@ -10,5 +10,4 @@ public class Projectile extends GameObject {
 		
 		// TODO Auto-generated constructor stub
 	}
-
 }
