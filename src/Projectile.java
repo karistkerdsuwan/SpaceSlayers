@@ -8,6 +8,5 @@ public class Projectile extends GameObject {
 		super(x, y, radius, speedX, speedY, color);
 		this.type = "friendly";
 		
-		// TODO Auto-generated constructor stub
 	}
 }

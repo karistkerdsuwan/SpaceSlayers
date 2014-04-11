@@ -57,11 +57,14 @@ public class Game {
 
 			time++;
 			if(time%4==0){
-				enemnySpawn(time);
+				enemySpawn();
+			}
+			if(time%16==0){
+				speedUpSpawn();
 			}
 		}
 
-		private void enemnySpawn(int time) {
+		private void enemySpawn() {
 			int xRan = (int) (Math.random() * 300)+900;
 			int yRan = (int) (Math.random() * 700);
 			
@@ -71,8 +74,14 @@ public class Game {
 			
 			info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray));
 		}
+		private void speedUpSpawn() {
+			int xRan = (int) (Math.random() * 300)+900;
+			int yRan = (int) (Math.random() * 700);
+			info.allObjects.add(new PowerUp(xRan, yRan, 30, (float) .75, 0, Color.BLUE));
+
+		}
 	};
-	timer.scheduleAtFixedRate(spawn, 0, 20); // (spawn,  900, 800);
+	timer.scheduleAtFixedRate(spawn, 0, 40); // (spawn,  900, 800);
 }
 	
 	public void stop (){

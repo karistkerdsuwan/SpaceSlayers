@@ -7,7 +7,7 @@ public class GameObject {
 	float speedX, speedY; 
 	float radius;         
 	private Color color; 
-	private static final Color DEFAULT_COLOR = Color.BLUE;
+//	private static final Color DEFAULT_COLOR = Color.BLUE;
 	public String type;
 //	public GameObject(int width,int height){
 //		Random rand = new Random();
@@ -37,7 +37,7 @@ public class GameObject {
 //	}
 
 	public void draw(Graphics g) {
-		g.setColor(color.red);
+		g.setColor(this.color);
 		g.fillOval((int)(x - radius), (int)(y - radius), (int)(2 * radius), (int)(2 * radius));
 	}
 

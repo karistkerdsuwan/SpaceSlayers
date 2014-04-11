@@ -42,8 +42,8 @@ public class MainWindow extends JFrame{
 		g.drawImage(bufferImage, 0, 0, this);
 	}
 
-	public void setScore (int score){
-		this.finalScore = score;
+	public void setScore (int time){
+		this.finalScore = time+StateInformation.score;
 	}
 
 	public void paint (Graphics g){			
@@ -72,7 +72,7 @@ public class MainWindow extends JFrame{
 		} else {
 			
 			// death animation goes here
-			g.setColor(new Color (225, 225, 225, 120));
+			g.setColor(new Color (225, 225, 225, 205));
 			g.fillRect(0, 0, 950, 750);
 			g.setColor(Color.WHITE);
 			g.setFont(this.getFont().deriveFont(Font.BOLD).deriveFont(new Float(300)));
@@ -110,16 +110,32 @@ public class MainWindow extends JFrame{
 			public void run (){		
 				if(!ship.dead){
 					if(MainWindow.keepDown&ship.yCoordinate<675){
-						MainWindow.ship.yCoordinate +=1.1;
+						if(ship.speedUp==0){
+							MainWindow.ship.yCoordinate +=1.1;
+						} else {
+							MainWindow.ship.yCoordinate +=2.2;
+						}
 					}
 					if(MainWindow.keepRight&ship.xCoordinate<870){
-						MainWindow.ship.xCoordinate +=1.1;
+						if(ship.speedUp==0){
+							MainWindow.ship.xCoordinate +=1.1;
+						} else {
+							MainWindow.ship.xCoordinate +=2.2;
+						}
 					}
 					if(MainWindow.keepUp&ship.yCoordinate>10){
-						MainWindow.ship.yCoordinate -=1.1;
+						if(ship.speedUp==0){
+							MainWindow.ship.yCoordinate -=1.1;
+						} else {
+							MainWindow.ship.yCoordinate -=2.2;
+						}
 					}
 					if(MainWindow.keepLeft){//&ship.xCoordinate>0){
-						MainWindow.ship.xCoordinate -=1.1;
+						if(ship.speedUp==0){
+							MainWindow.ship.xCoordinate -=1.1;
+						} else {
+							MainWindow.ship.xCoordinate -=2.2;
+						}
 					}
 				}
 			}

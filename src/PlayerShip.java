@@ -15,6 +15,7 @@ public class PlayerShip {
 	public int yRadius;
 	public boolean dead;
 	public static int invincible =0;
+	public static int speedUp=0;
 	
 	boolean contact (float x, float y, float checkXRadius, float checkYRadius) {
 		if(Math.sqrt((double) Math.pow((x - (this.xCoordinate+25)),2))<this.xRadius+checkXRadius
@@ -30,6 +31,9 @@ public class PlayerShip {
 		if(invincible!=0){
 			invincible--;
 		}
+		if(this.speedUp!=0){
+			speedUp--;	
+		}
 
 		for (int i=0; i<StateInformation.allObjects.size();i++){
 			if(contact(StateInformation.allObjects.get(i).x, StateInformation.allObjects.get(i).y,
@@ -38,16 +42,16 @@ public class PlayerShip {
 					if(invincible==0){
 						shieldStage--;
 						flicker(g);
-					} else {
 					}
-
 					if(shieldStage==0){
 						this.dead=true;
 					}
 				} else if (StateInformation.allObjects.get(i).type.equals("friendly")){
 
 				} else if (StateInformation.allObjects.get(i).type.equals("powerup")){
-					
+					this.speedUp=1200;
+					StateInformation.allObjects.get(i).remove();
+					StateInformation.score +=10;
 				}
 			}
 		}
