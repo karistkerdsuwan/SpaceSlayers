@@ -18,8 +18,8 @@ public class PlayerShip {
 	public static int speedUp=0;
 	
 	boolean contact (float x, float y, float checkXRadius, float checkYRadius) {
-		if(Math.sqrt((double) Math.pow((x - (this.xCoordinate+25)),2))<this.xRadius+checkXRadius
-				&&(Math.sqrt((double) Math.pow((y - this.yCoordinate),2)) <this.yRadius+checkYRadius)){
+		if(Math.abs(x - this.xCoordinate) < .8*(checkXRadius + xRadius) && Math.abs(y - this.yCoordinate) < .8*(checkYRadius + yRadius)){
+			System.out.println("problem");
 			return true;
 		} else {
 			return false;
@@ -61,8 +61,8 @@ public class PlayerShip {
 		shieldStage = 5;
 		xCoordinate = 50;
 		yCoordinate = 250;
-		this.yRadius=21;
-		this.xRadius=36;
+		this.yRadius=20;
+		this.xRadius=35;
 	}
 	
 	void flicker(Graphics g){
@@ -74,7 +74,7 @@ public class PlayerShip {
 
 		Graphics changeColor = g;
 		changeColor.setColor(Color.white);
-		changeColor.fillOval((int)xCoordinate, (int)yCoordinate, 70, 40);
+		changeColor.fillOval((int)xCoordinate-xRadius, (int)yCoordinate-yRadius, this.xRadius * 2, this.yRadius * 2);
 	}
 
 }
