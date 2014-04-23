@@ -77,7 +77,7 @@ public class Game {
 		private void speedUpSpawn() {
 			int xRan = (int) (Math.random() * 300)+900;
 			int yRan = (int) (Math.random() * 700);
-			info.allObjects.add(new PowerUp(xRan, yRan, 30, (float) .75, 0, Color.BLUE));
+			info.allObjects.add(new PowerUp(xRan, yRan, 30, (float) .75, 0, Color.BLUE, (int) (Math.random() *3)));
 
 		}
 	};

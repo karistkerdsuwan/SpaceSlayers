@@ -19,7 +19,6 @@ public class PlayerShip {
 	
 	boolean contact (float x, float y, float checkXRadius, float checkYRadius) {
 		if(Math.abs(x - this.xCoordinate) < .8*(checkXRadius + xRadius) && Math.abs(y - this.yCoordinate) < .8*(checkYRadius + yRadius)){
-			System.out.println("problem");
 			return true;
 		} else {
 			return false;

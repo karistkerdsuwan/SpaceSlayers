@@ -29,6 +29,7 @@ public class MainWindow extends JFrame{
 	public static boolean keepLeft = false;
 	public static boolean keepUp = false;
 	public static boolean keepDown = false;
+	public static boolean keepFire = false;
 
 	public void update(Graphics g){
 		if(bufferImage == null){
@@ -79,7 +80,7 @@ public class MainWindow extends JFrame{
 			g.drawString("DEAD", 0, 300);
 			g.setFont(this.getFont().deriveFont(Font.BOLD).deriveFont(new Float(100)));
 			g.drawString("SCORE: "+ String.valueOf(finalScore), 15, 400);
-				
+			
 		}
 	}
 
@@ -135,12 +136,22 @@ public class MainWindow extends JFrame{
 							MainWindow.ship.xCoordinate -=1.1;
 						} else {
 							MainWindow.ship.xCoordinate -=2.2;
-						}
+					 	}
 					}
 				}
 			}
 		};
 		timer.scheduleAtFixedRate(task, 100, 5);
+
+		TimerTask fire = new TimerTask(){
+			public void run (){	
+				if (keepFire){
+					StateInformation.allObjects.add(new Projectile(ship.xCoordinate+ship.xRadius, ship.yCoordinate+ship.yRadius, 
+					3, -2, 0, Color.yellow));
+				}
+			}
+		};
+		timer.scheduleAtFixedRate(fire, 100, 200);
 
 
 		InputMap map = new InputMap();
@@ -149,11 +160,13 @@ public class MainWindow extends JFrame{
 		Action PlayerMovementDown = new PlayerMovementDown();
 		Action PlayerMovementLeft = new PlayerMovementLeft();
 		Action PlayerMovementRight = new PlayerMovementRight();
+		Action PlayerFire = new PlayerFire();
 
 		Action PlayerMovementUpRelease = new PlayerMovementUpRelease();
 		Action PlayerMovementDownRelease = new PlayerMovementDownRelease();
 		Action PlayerMovementLeftRelease = new PlayerMovementLeftRelease();
 		Action PlayerMovementRightRelease = new PlayerMovementRightRelease();
+		Action PlayerFireRelease = new PlayerFireRelease();
 
 		panel.getInputMap().put(KeyStroke.getKeyStroke("UP") , "upKey" );
 		panel.getActionMap().put("upKey", PlayerMovementUp);
@@ -166,6 +179,9 @@ public class MainWindow extends JFrame{
 
 		panel.getInputMap().put(KeyStroke.getKeyStroke("RIGHT") , "rightKey" );
 		panel.getActionMap().put("rightKey", PlayerMovementRight);
+		
+		panel.getInputMap().put(KeyStroke.getKeyStroke("SPACE") , "fireKey" );
+		panel.getActionMap().put("fireKey", PlayerFire);
 
 
 		panel.getInputMap().put(KeyStroke.getKeyStroke("released UP") , "upKeyRelease" );
@@ -179,6 +195,10 @@ public class MainWindow extends JFrame{
 
 		panel.getInputMap().put(KeyStroke.getKeyStroke("released RIGHT") , "rightKeyRelease" );
 		panel.getActionMap().put("rightKeyRelease", PlayerMovementRightRelease);
+		
+		panel.getInputMap().put(KeyStroke.getKeyStroke("released SPACE") , "fireKeyRelease" );
+		panel.getActionMap().put("fireKeyRelease", PlayerFireRelease);
+
 	}
 
 	static class PlayerMovementUp extends AbstractAction {
@@ -223,9 +243,16 @@ public class MainWindow extends JFrame{
 			keepRight = false;
 		}
 	}
-	static class PlayerSpace extends AbstractAction {
+	static class PlayerFire extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
+			keepFire = true;
 		}
 	}
+	static class PlayerFireRelease extends AbstractAction {
+		public void actionPerformed(ActionEvent event) {
+			keepFire = false;
+		}
+	}
+
 
 }

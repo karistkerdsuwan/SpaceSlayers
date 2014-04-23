@@ -7,6 +7,5 @@ public class Projectile extends GameObject {
 		float speedY, Color color) {
 		super(x, y, radius, speedX, speedY, color);
 		this.type = "friendly";
-		
 	}
 }
