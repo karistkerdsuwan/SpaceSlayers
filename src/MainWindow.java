@@ -146,7 +146,7 @@ public class MainWindow extends JFrame{
 		TimerTask fire = new TimerTask(){
 			public void run (){	
 				if (keepFire){
-					StateInformation.allObjects.add(new Projectile(ship.xCoordinate+ship.xRadius, ship.yCoordinate+ship.yRadius, 
+					StateInformation.allObjects.add(new Projectile(ship.xCoordinate+ship.xRadius-3, ship.yCoordinate, 
 					3, -2, 0, Color.yellow));
 				}
 			}
