@@ -18,14 +18,42 @@ public class PlayerShip {
 	public static int speedUp=0;
 	
 	boolean contact (float x, float y, float checkXRadius, float checkYRadius) {
+		float point12x=(this.xCoordinate);
+		float point12y=this.yCoordinate-yRadius;
+		
+		float point3x=(this.xCoordinate+ xRadius);
+		float point3y=this.yCoordinate;
+		
+		float point6x=(this.xCoordinate);
+		float point6y=this.yCoordinate+ yRadius;
+		
+		float point9x=(this.xCoordinate-xRadius);
+		float point9y=this.yCoordinate;
+		
+		if( (float) Math.sqrt(((point12x - x) * (point12x - x)) + ((point12y - y) * (point12y - y))) < checkXRadius){ // up
+			return true;
+		}
+		
+		if( (float) Math.sqrt(((point3x - x) * (point3x - x)) + ((point3y - y) * (point3y - y))) < checkXRadius){ // right
+			return true;
+		}
+		
+		if( (float) Math.sqrt(((point6x - x) * (point6x - x)) + ((point6y - y) * (point6y - y))) < checkXRadius){ // down
+			return true;
+		}
+		
+		if( (float) Math.sqrt(((point9x - x) * (point9x - x)) + ((point9y - y) * (point9y - y))) < checkXRadius){ // left
+			return true;
+		}
+		
 		if(Math.abs(x - this.xCoordinate) < .8*(checkXRadius + xRadius) && Math.abs(y - this.yCoordinate) < .8*(checkYRadius + yRadius)){
+			System.out.println("problem");
 			return true;
 		} else {
 			return false;
 		}
 
 	}
-
 	void update(Graphics g){
 		if(invincible!=0){
 			invincible--;
