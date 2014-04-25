@@ -47,7 +47,6 @@ public class PlayerShip {
 		}
 		
 		if(Math.abs(x - this.xCoordinate) < .8*(checkXRadius + xRadius) && Math.abs(y - this.yCoordinate) < .8*(checkYRadius + yRadius)){
-			System.out.println("problem");
 			return true;
 		} else {
 			return false;

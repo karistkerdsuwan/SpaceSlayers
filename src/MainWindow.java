@@ -30,6 +30,12 @@ public class MainWindow extends JFrame{
 	public static boolean keepUp = false;
 	public static boolean keepDown = false;
 	public static boolean keepFire = false;
+	public static String lastKeyPressed = "blank";
+	
+	public static int dashTimerUp = 0;
+	public static int dashTimerRight = 0;
+	public static int dashTimerDown = 0;
+	public static int dashTimerLeft = 0;
 
 	public void update(Graphics g){
 		if(bufferImage == null){
@@ -110,6 +116,79 @@ public class MainWindow extends JFrame{
 		TimerTask task = new TimerTask(){
 			public void run (){		
 				if(!ship.dead){
+				//	System.out.println(lastKeyPressed);
+					
+					if(dashTimerRight!=0||dashTimerLeft!=0||dashTimerUp!=0||dashTimerDown!=0){
+						if(dashTimerRight==0)
+						dashTimerRight--;
+						if(dashTimerLeft==0)
+						dashTimerLeft--;
+						if(dashTimerUp==0)
+						dashTimerUp--;
+						if(dashTimerDown==0)
+						dashTimerDown--;
+
+						if(MainWindow.keepDown&&!MainWindow.keepLeft&&!MainWindow.keepRight&&!MainWindow.keepUp&&lastKeyPressed.equals("down")){
+							System.out.println("DASH DOWN");
+							dashTimerDown=0;
+							lastKeyPressed="blank";
+							ship.yCoordinate +=300;
+
+							// down
+						} else if(!MainWindow.keepDown&&MainWindow.keepLeft&&!MainWindow.keepRight&&!MainWindow.keepUp&&lastKeyPressed.equals("left")){
+							// left
+							System.out.println("DASH LEFT");
+							dashTimerLeft=0;
+							lastKeyPressed="blank";
+							ship.xCoordinate -=300;
+
+
+						} else if(!MainWindow.keepDown&&!MainWindow.keepLeft&&MainWindow.keepRight&&!MainWindow.keepUp&&lastKeyPressed.equals("right")){
+							// right
+							System.out.println("DASH RIGHT");
+							dashTimerRight=0;
+							lastKeyPressed="blank";
+							ship.xCoordinate +=300;
+
+						} else if(!MainWindow.keepDown&&!MainWindow.keepLeft&&!MainWindow.keepRight&&MainWindow.keepUp&&lastKeyPressed.equals("up")){
+							// up
+							System.out.println("DASH UP");
+							dashTimerUp=0;
+							lastKeyPressed="blank";
+							ship.yCoordinate -=300;
+						}
+
+					} else {
+					
+					if(MainWindow.keepDown&&!MainWindow.keepLeft&&!MainWindow.keepRight&&!MainWindow.keepUp){
+						// down
+						dashTimerDown=20;
+						dashTimerLeft=0;
+						dashTimerUp=0;
+						dashTimerRight=0;
+
+					} else if(!MainWindow.keepDown&&MainWindow.keepLeft&&!MainWindow.keepRight&&!MainWindow.keepUp){
+						// left
+						dashTimerDown=0;
+						dashTimerLeft=20;
+						dashTimerUp=0;
+						dashTimerRight=0;
+						
+					} else if(!MainWindow.keepDown&&!MainWindow.keepLeft&&MainWindow.keepRight&&!MainWindow.keepUp){
+						// right
+						dashTimerDown=0;
+						dashTimerLeft=0;
+						dashTimerUp=0;
+						dashTimerRight=20;
+					} else if(!MainWindow.keepDown&&!MainWindow.keepLeft&&!MainWindow.keepRight&&MainWindow.keepUp){
+						// up
+						dashTimerDown=0;
+						dashTimerLeft=0;
+						dashTimerUp=20;
+						dashTimerRight=0;
+					}
+					}
+					
 					if(MainWindow.keepDown&ship.yCoordinate<675){
 						if(ship.speedUp==0){
 							MainWindow.ship.yCoordinate +=1.1;
@@ -209,6 +288,7 @@ public class MainWindow extends JFrame{
 	static class PlayerMovementDown extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
 			keepDown = true;
+			
 		}
 	}
 	static class PlayerMovementLeft extends AbstractAction {
@@ -217,6 +297,8 @@ public class MainWindow extends JFrame{
 			keepLeft = true;
 		}
 	}
+	
+	
 	static class PlayerMovementRight extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
 			keepRight = true;
@@ -226,21 +308,29 @@ public class MainWindow extends JFrame{
 	static class PlayerMovementUpRelease extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
 			keepUp = false;
+			lastKeyPressed = "up";
+
 		}
 	}
 	static class PlayerMovementDownRelease extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
 			keepDown = false;
+			lastKeyPressed = "down";
+
 		}
 	}
 	static class PlayerMovementLeftRelease extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
 			keepLeft = false;
+			lastKeyPressed = "left";
+
 		}
 	}
 	static class PlayerMovementRightRelease extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
 			keepRight = false;
+			lastKeyPressed = "right";
+
 		}
 	}
 	static class PlayerFire extends AbstractAction {
