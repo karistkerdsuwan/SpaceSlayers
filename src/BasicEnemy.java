@@ -26,7 +26,7 @@ public class BasicEnemy extends GameObject {
 	boolean contact (float x, float y, float checkRadius) {
 		
 		if(Math.abs(x - this.x) < .8*(checkRadius + radius) && Math.abs(y - this.y) < .8*(checkRadius + radius)){
-			System.out.println("problem");
+			StateInformation.score=+5;
 			return true;
 		} else {
 			return false;

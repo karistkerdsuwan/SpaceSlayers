@@ -31,11 +31,12 @@ public class MainWindow extends JFrame{
 	public static boolean keepDown = false;
 	public static boolean keepFire = false;
 	public static String lastKeyPressed = "blank";
-	
+
 	public static int dashTimerUp = 0;
 	public static int dashTimerRight = 0;
 	public static int dashTimerDown = 0;
 	public static int dashTimerLeft = 0;
+	public static boolean justDashed = false;
 
 	public void update(Graphics g){
 		if(bufferImage == null){
@@ -77,7 +78,7 @@ public class MainWindow extends JFrame{
 				Game.info.allObjects.get(a).update(g);
 			}
 		} else {
-			
+
 			// death animation goes here
 			g.setColor(new Color (225, 225, 225, 205));
 			g.fillRect(0, 0, 950, 750);
@@ -86,11 +87,12 @@ public class MainWindow extends JFrame{
 			g.drawString("DEAD", 0, 300);
 			g.setFont(this.getFont().deriveFont(Font.BOLD).deriveFont(new Float(100)));
 			g.drawString("SCORE: "+ String.valueOf(finalScore), 15, 400);
-			
+
 		}
 	}
 
 	MainWindow(PlayerShip shipToMove){
+		justDashed = false;
 		this.setTitle("Space");		
 		this.setFocusable(false);
 		panel = new JPanel();
@@ -116,106 +118,124 @@ public class MainWindow extends JFrame{
 		TimerTask task = new TimerTask(){
 			public void run (){		
 				if(!ship.dead){
-				//	System.out.println(lastKeyPressed);
-					
+
 					if(dashTimerRight!=0||dashTimerLeft!=0||dashTimerUp!=0||dashTimerDown!=0){
-						if(dashTimerRight==0)
-						dashTimerRight--;
-						if(dashTimerLeft==0)
-						dashTimerLeft--;
-						if(dashTimerUp==0)
-						dashTimerUp--;
-						if(dashTimerDown==0)
-						dashTimerDown--;
+						if(dashTimerRight!=0){
+							dashTimerRight--;
+						}
+						if(dashTimerLeft!=0){
+							dashTimerLeft--;
+						}
+						if(dashTimerUp!=0){
+							dashTimerUp--;
+						}
+						if(dashTimerDown!=0){
+							dashTimerDown--;
+						}
 
 						if(MainWindow.keepDown&&!MainWindow.keepLeft&&!MainWindow.keepRight&&!MainWindow.keepUp&&lastKeyPressed.equals("down")){
-							System.out.println("DASH DOWN");
+							justDashed = true;
 							dashTimerDown=0;
 							lastKeyPressed="blank";
-							ship.yCoordinate +=300;
-
+							if(ship.yCoordinate+200>700){
+								ship.yCoordinate=700-ship.yRadius;
+							} else {
+								ship.yCoordinate +=200;
+							}
 							// down
 						} else if(!MainWindow.keepDown&&MainWindow.keepLeft&&!MainWindow.keepRight&&!MainWindow.keepUp&&lastKeyPressed.equals("left")){
 							// left
-							System.out.println("DASH LEFT");
+							justDashed = true;
 							dashTimerLeft=0;
 							lastKeyPressed="blank";
-							ship.xCoordinate -=300;
+							if(ship.xCoordinate-300<0){
+								ship.xCoordinate=0+ship.xRadius;
+							} else {
+								ship.xCoordinate -=300+ship.xRadius;
+							}
 
 
 						} else if(!MainWindow.keepDown&&!MainWindow.keepLeft&&MainWindow.keepRight&&!MainWindow.keepUp&&lastKeyPressed.equals("right")){
 							// right
-							System.out.println("DASH RIGHT");
+							justDashed = true;
 							dashTimerRight=0;
 							lastKeyPressed="blank";
-							ship.xCoordinate +=300;
+							if(ship.xCoordinate+300>900){
+								ship.xCoordinate=900-ship.xRadius;
+							} else {
+								ship.xCoordinate +=300;
+							}
 
 						} else if(!MainWindow.keepDown&&!MainWindow.keepLeft&&!MainWindow.keepRight&&MainWindow.keepUp&&lastKeyPressed.equals("up")){
 							// up
-							System.out.println("DASH UP");
+							justDashed = true;
 							dashTimerUp=0;
 							lastKeyPressed="blank";
-							ship.yCoordinate -=300;
+							if(ship.yCoordinate-200<0){
+								ship.yCoordinate=0+ship.yRadius;
+							} else {
+								ship.yCoordinate -=200;
+							}
 						}
 
 					} else {
-					
-					if(MainWindow.keepDown&&!MainWindow.keepLeft&&!MainWindow.keepRight&&!MainWindow.keepUp){
-						// down
-						dashTimerDown=20;
-						dashTimerLeft=0;
-						dashTimerUp=0;
-						dashTimerRight=0;
+						lastKeyPressed = "blank";
+						if(MainWindow.keepDown&&!MainWindow.keepLeft&&!MainWindow.keepRight&&!MainWindow.keepUp){
+							// down
+							dashTimerDown=120;
+							dashTimerLeft=0;
+							dashTimerUp=0;
+							dashTimerRight=0;
 
-					} else if(!MainWindow.keepDown&&MainWindow.keepLeft&&!MainWindow.keepRight&&!MainWindow.keepUp){
-						// left
-						dashTimerDown=0;
-						dashTimerLeft=20;
-						dashTimerUp=0;
-						dashTimerRight=0;
-						
-					} else if(!MainWindow.keepDown&&!MainWindow.keepLeft&&MainWindow.keepRight&&!MainWindow.keepUp){
-						// right
-						dashTimerDown=0;
-						dashTimerLeft=0;
-						dashTimerUp=0;
-						dashTimerRight=20;
-					} else if(!MainWindow.keepDown&&!MainWindow.keepLeft&&!MainWindow.keepRight&&MainWindow.keepUp){
-						// up
-						dashTimerDown=0;
-						dashTimerLeft=0;
-						dashTimerUp=20;
-						dashTimerRight=0;
+						} else if(!MainWindow.keepDown&&MainWindow.keepLeft&&!MainWindow.keepRight&&!MainWindow.keepUp){
+							// left
+							dashTimerDown=0;
+							dashTimerLeft=120;
+							dashTimerUp=0;
+							dashTimerRight=0;
+
+						} else if(!MainWindow.keepDown&&!MainWindow.keepLeft&&MainWindow.keepRight&&!MainWindow.keepUp){
+							// right
+							dashTimerDown=0;
+							dashTimerLeft=0;
+							dashTimerUp=0;
+							dashTimerRight=120;
+						} else if(!MainWindow.keepDown&&!MainWindow.keepLeft&&!MainWindow.keepRight&&MainWindow.keepUp){
+							// up
+							dashTimerDown=0;
+							dashTimerLeft=0;
+							dashTimerUp=120;
+							dashTimerRight=0;
+						}
 					}
-					}
-					
-					if(MainWindow.keepDown&ship.yCoordinate<675){
+
+					if(MainWindow.keepDown&ship.yCoordinate<700-ship.yRadius){
 						if(ship.speedUp==0){
 							MainWindow.ship.yCoordinate +=1.1;
 						} else {
 							MainWindow.ship.yCoordinate +=2.2;
 						}
 					}
-					if(MainWindow.keepRight&ship.xCoordinate<870){
+					if(MainWindow.keepRight&ship.xCoordinate<900-ship.xRadius){
 						if(ship.speedUp==0){
 							MainWindow.ship.xCoordinate +=1.1;
 						} else {
 							MainWindow.ship.xCoordinate +=2.2;
 						}
 					}
-					if(MainWindow.keepUp&ship.yCoordinate>10){
+					if(MainWindow.keepUp&ship.yCoordinate>0+ship.yRadius){
 						if(ship.speedUp==0){
 							MainWindow.ship.yCoordinate -=1.1;
 						} else {
 							MainWindow.ship.yCoordinate -=2.2;
 						}
 					}
-					if(MainWindow.keepLeft){//&ship.xCoordinate>0){
+					if(MainWindow.keepLeft&ship.xCoordinate>ship.xRadius){
 						if(ship.speedUp==0){
 							MainWindow.ship.xCoordinate -=1.1;
 						} else {
 							MainWindow.ship.xCoordinate -=2.2;
-					 	}
+						}
 					}
 				}
 			}
@@ -226,7 +246,7 @@ public class MainWindow extends JFrame{
 			public void run (){	
 				if (keepFire){
 					StateInformation.allObjects.add(new Projectile(ship.xCoordinate+ship.xRadius-3, ship.yCoordinate, 
-					3, -2, 0, Color.yellow));
+							3, -2, 0, Color.yellow,true));
 				}
 			}
 		};
@@ -258,7 +278,7 @@ public class MainWindow extends JFrame{
 
 		panel.getInputMap().put(KeyStroke.getKeyStroke("RIGHT") , "rightKey" );
 		panel.getActionMap().put("rightKey", PlayerMovementRight);
-		
+
 		panel.getInputMap().put(KeyStroke.getKeyStroke("SPACE") , "fireKey" );
 		panel.getActionMap().put("fireKey", PlayerFire);
 
@@ -274,7 +294,7 @@ public class MainWindow extends JFrame{
 
 		panel.getInputMap().put(KeyStroke.getKeyStroke("released RIGHT") , "rightKeyRelease" );
 		panel.getActionMap().put("rightKeyRelease", PlayerMovementRightRelease);
-		
+
 		panel.getInputMap().put(KeyStroke.getKeyStroke("released SPACE") , "fireKeyRelease" );
 		panel.getActionMap().put("fireKeyRelease", PlayerFireRelease);
 
@@ -288,7 +308,7 @@ public class MainWindow extends JFrame{
 	static class PlayerMovementDown extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
 			keepDown = true;
-			
+
 		}
 	}
 	static class PlayerMovementLeft extends AbstractAction {
@@ -297,8 +317,8 @@ public class MainWindow extends JFrame{
 			keepLeft = true;
 		}
 	}
-	
-	
+
+
 	static class PlayerMovementRight extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
 			keepRight = true;
@@ -308,29 +328,46 @@ public class MainWindow extends JFrame{
 	static class PlayerMovementUpRelease extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
 			keepUp = false;
-			lastKeyPressed = "up";
+			if(justDashed){
+
+			} else {
+				lastKeyPressed = "up";
+			}
 
 		}
 	}
 	static class PlayerMovementDownRelease extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
 			keepDown = false;
-			lastKeyPressed = "down";
+			if(justDashed){
+				justDashed=false;
+
+			} else {
+				lastKeyPressed = "down";
+			}
 
 		}
 	}
 	static class PlayerMovementLeftRelease extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
 			keepLeft = false;
-			lastKeyPressed = "left";
+			if(justDashed){
+				justDashed=false;
+			} else {
+				lastKeyPressed = "left";
+			}
 
 		}
 	}
 	static class PlayerMovementRightRelease extends AbstractAction {
 		public void actionPerformed(ActionEvent event) {
 			keepRight = false;
-			lastKeyPressed = "right";
+			if(justDashed){
+				justDashed=false;
 
+			} else {
+				lastKeyPressed = "right";
+			}
 		}
 	}
 	static class PlayerFire extends AbstractAction {

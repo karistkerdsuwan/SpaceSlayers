@@ -34,7 +34,6 @@ public class Game {
 					if(ship.invincible!=0){
 						
 					}
-					// For fun and great glory
 					
 //					if(ship.invincible>400){
 //						for(int counter=0;counter<StateInformation.allObjects.size();counter++){
@@ -62,6 +61,7 @@ public class Game {
 			if(time%16==0){
 				speedUpSpawn();
 			}
+			
 		}
 
 		private void enemySpawn() {
@@ -73,6 +73,9 @@ public class Game {
 //			System.out.println(ship.yCoordinate);
 			
 			info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray));
+			if(time%20==0){
+				info.allObjects.add(new rangedEnemy(xRan, yRan, 30, (float) .75, 0, Color.DARK_GRAY));
+			}
 		}
 		private void speedUpSpawn() {
 			int xRan = (int) (Math.random() * 300)+900;
