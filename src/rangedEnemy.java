@@ -17,21 +17,22 @@ public class rangedEnemy extends BasicEnemy{
 	public void update(Graphics graphics) {
 		if(this.x<-50||this.y<-10||this.y>800){
 			this.remove();
-		}
-		int size=StateInformation.allObjects.size();
-		for (int i=0; i<size;i++){
-			if(StateInformation.allObjects.get(i).type.equals("friendly")){
-				if(contact(StateInformation.allObjects.get(i).x, StateInformation.allObjects.get(i).y, StateInformation.allObjects.get(i).radius)){
-					this.remove();
-					size--;
+		} else {
+			int size=StateInformation.allObjects.size();
+			for (int i=0; i<size;i++){
+				if(StateInformation.allObjects.get(i).type.equals("friendly")){
+					if(contact(StateInformation.allObjects.get(i).x, StateInformation.allObjects.get(i).y, StateInformation.allObjects.get(i).radius)){
+						this.remove();
+						size--;
+					}
 				}
 			}
-		}
-		y -= speedY;
-		x -= speedX;
-		fireTime--;
-		if(fireTime==0){
-			fire();
+			y -= speedY;
+			x -= speedX;
+			fireTime--;
+			if(fireTime==0){
+				fire();
+			}
 		}
 	}
 }

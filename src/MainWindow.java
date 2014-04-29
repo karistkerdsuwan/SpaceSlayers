@@ -36,7 +36,13 @@ public class MainWindow extends JFrame{
 	public static int dashTimerRight = 0;
 	public static int dashTimerDown = 0;
 	public static int dashTimerLeft = 0;
+	
+	public static int xMax = 0;
+	public static int yMax = 0;
+	
 	public static boolean justDashed = false;
+	public static int dashLimit = 0;
+
 
 	public void update(Graphics g){
 		if(bufferImage == null){
@@ -72,7 +78,7 @@ public class MainWindow extends JFrame{
 				} else {
 					g.setColor(new Color (225,225,225,180));
 				}
-				g.fillRect(0, 0, 950, 900);
+				g.fillRect(0, 0, 950, xMax);
 			}
 			for (int a =0; a <=Game.info.allObjects.size()-1;a++){
 				Game.info.allObjects.get(a).update(g);
@@ -101,6 +107,8 @@ public class MainWindow extends JFrame{
 		panel.setBackground(Color.black);
 
 		this.setSize(new Dimension (900, 700));
+		this.xMax=900;
+		this.yMax=700;
 		this.setVisible(false);
 		this.setVisible(true);
 		ship = shipToMove;
@@ -118,6 +126,9 @@ public class MainWindow extends JFrame{
 		TimerTask task = new TimerTask(){
 			public void run (){		
 				if(!ship.dead){
+					if( dashLimit != 0){
+						dashLimit--;
+					}
 
 					if(dashTimerRight!=0||dashTimerLeft!=0||dashTimerUp!=0||dashTimerDown!=0){
 						if(dashTimerRight!=0){
@@ -133,21 +144,23 @@ public class MainWindow extends JFrame{
 							dashTimerDown--;
 						}
 
-						if(MainWindow.keepDown&&!MainWindow.keepLeft&&!MainWindow.keepRight&&!MainWindow.keepUp&&lastKeyPressed.equals("down")){
+						if(	dashLimit==0&&MainWindow.keepDown&&!MainWindow.keepLeft&&!MainWindow.keepRight&&!MainWindow.keepUp&&lastKeyPressed.equals("down")){
 							justDashed = true;
 							dashTimerDown=0;
 							lastKeyPressed="blank";
-							if(ship.yCoordinate+200>700){
-								ship.yCoordinate=700-ship.yRadius;
+							dashLimit=200;
+							if(ship.yCoordinate+200>yMax){
+								ship.yCoordinate=yMax-ship.yRadius;
 							} else {
 								ship.yCoordinate +=200;
 							}
 							// down
-						} else if(!MainWindow.keepDown&&MainWindow.keepLeft&&!MainWindow.keepRight&&!MainWindow.keepUp&&lastKeyPressed.equals("left")){
+						} else if(dashLimit==0&&!MainWindow.keepDown&&MainWindow.keepLeft&&!MainWindow.keepRight&&!MainWindow.keepUp&&lastKeyPressed.equals("left")){
 							// left
 							justDashed = true;
 							dashTimerLeft=0;
 							lastKeyPressed="blank";
+							dashLimit=200;
 							if(ship.xCoordinate-300<0){
 								ship.xCoordinate=0+ship.xRadius;
 							} else {
@@ -155,22 +168,24 @@ public class MainWindow extends JFrame{
 							}
 
 
-						} else if(!MainWindow.keepDown&&!MainWindow.keepLeft&&MainWindow.keepRight&&!MainWindow.keepUp&&lastKeyPressed.equals("right")){
+						} else if(dashLimit==0&&!MainWindow.keepDown&&!MainWindow.keepLeft&&MainWindow.keepRight&&!MainWindow.keepUp&&lastKeyPressed.equals("right")){
 							// right
 							justDashed = true;
 							dashTimerRight=0;
 							lastKeyPressed="blank";
-							if(ship.xCoordinate+300>900){
-								ship.xCoordinate=900-ship.xRadius;
+							dashLimit=200;
+							if(ship.xCoordinate+300>xMax){
+								ship.xCoordinate=xMax-ship.xRadius;
 							} else {
 								ship.xCoordinate +=300;
 							}
 
-						} else if(!MainWindow.keepDown&&!MainWindow.keepLeft&&!MainWindow.keepRight&&MainWindow.keepUp&&lastKeyPressed.equals("up")){
+						} else if(dashLimit==0&&!MainWindow.keepDown&&!MainWindow.keepLeft&&!MainWindow.keepRight&&MainWindow.keepUp&&lastKeyPressed.equals("up")){
 							// up
 							justDashed = true;
 							dashTimerUp=0;
 							lastKeyPressed="blank";
+							dashLimit=200;
 							if(ship.yCoordinate-200<0){
 								ship.yCoordinate=0+ship.yRadius;
 							} else {
@@ -209,14 +224,14 @@ public class MainWindow extends JFrame{
 						}
 					}
 
-					if(MainWindow.keepDown&ship.yCoordinate<700-ship.yRadius){
+					if(MainWindow.keepDown&ship.yCoordinate<yMax-ship.yRadius){
 						if(ship.speedUp==0){
 							MainWindow.ship.yCoordinate +=1.1;
 						} else {
 							MainWindow.ship.yCoordinate +=2.2;
 						}
 					}
-					if(MainWindow.keepRight&ship.xCoordinate<900-ship.xRadius){
+					if(MainWindow.keepRight&ship.xCoordinate<xMax-ship.xRadius){
 						if(ship.speedUp==0){
 							MainWindow.ship.xCoordinate +=1.1;
 						} else {

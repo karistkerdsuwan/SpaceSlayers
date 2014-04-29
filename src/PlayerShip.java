@@ -75,7 +75,17 @@ public class PlayerShip {
 				} else if (StateInformation.allObjects.get(i).type.equals("friendly")){
 
 				} else if (StateInformation.allObjects.get(i).type.equals("powerup")){
-					this.speedUp=1200;
+					if(((PowerUp)StateInformation.allObjects.get(i)).PowerupType==0){
+						StateInformation.score+=10;
+					} else if(((PowerUp)StateInformation.allObjects.get(i)).PowerupType==1){
+						this.speedUp=1200;
+					} else if(((PowerUp)StateInformation.allObjects.get(i)).PowerupType==1){
+						if(this.shieldStage!=5){
+							this.shieldStage++;
+						} else {
+							StateInformation.score+=50;
+						}
+					}
 					StateInformation.allObjects.get(i).remove();
 					StateInformation.score +=10;
 				}

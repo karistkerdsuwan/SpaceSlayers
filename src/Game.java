@@ -15,6 +15,7 @@ public class Game {
 	Timer timer = new Timer();	
 	
 	Game (){
+		
 		slow=false;
 		info = new StateInformation();
 		info.allObjects = new ArrayList();
@@ -72,9 +73,10 @@ public class Game {
 //			System.out.println(yRan);
 //			System.out.println(ship.yCoordinate);
 			
-			info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray));
 			if(time%20==0){
 				info.allObjects.add(new rangedEnemy(xRan, yRan, 30, (float) .75, 0, Color.DARK_GRAY));
+			} else {
+				info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray));
 			}
 		}
 		private void speedUpSpawn() {
