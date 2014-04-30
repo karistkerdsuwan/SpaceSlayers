@@ -36,12 +36,14 @@ public class MainWindow extends JFrame{
 	public static int dashTimerRight = 0;
 	public static int dashTimerDown = 0;
 	public static int dashTimerLeft = 0;
-	
+
 	public static int xMax = 0;
 	public static int yMax = 0;
-	
+
 	public static boolean justDashed = false;
 	public static int dashLimit = 0;
+
+	public static int laserTime = 0;
 
 
 	public void update(Graphics g){
@@ -60,13 +62,24 @@ public class MainWindow extends JFrame{
 		this.finalScore = time+StateInformation.score;
 	}
 
-	public void paint (Graphics g){			
+	public void paint (Graphics g){		
 		super.paint(g);
 		ship.draw(g);
 		for (int a =0; a <=Game.info.allObjects.size()-1;a++){
-			Game.info.allObjects.get(a).draw(g);		
+			Game.info.allObjects.get(a).draw(g);
 		}
-
+		if(laserTime>4000){
+			g.setColor(Color.red);
+			g.fillRect((int)ship.xCoordinate+ship.xRadius, (int) ship.yCoordinate-ship.yRadius, 900, 50);
+			for(int counter = 0; counter<StateInformation.allObjects.size();counter++){
+				if(StateInformation.allObjects.get(counter).type.equals("enemy")&&
+						Math.abs(StateInformation.allObjects.get(counter).y-ship.yCoordinate)<(ship.yRadius*1.7)&&
+						StateInformation.allObjects.get(counter).x>ship.xCoordinate){
+					StateInformation.allObjects.get(counter).remove();
+					StateInformation.score+=3;
+				}
+			}
+		}
 		if(!ship.dead){
 			if(ship.invincible>680){
 				if(ship.shieldStage==4){
@@ -125,131 +138,152 @@ public class MainWindow extends JFrame{
 		Timer timer = new Timer();	
 		TimerTask task = new TimerTask(){
 			public void run (){		
-				if(!ship.dead){
-					if( dashLimit != 0){
-						dashLimit--;
+				if(!ship.dead){						
+					if( laserTime != 0){
+						laserTime --;
 					}
 
-					if(dashTimerRight!=0||dashTimerLeft!=0||dashTimerUp!=0||dashTimerDown!=0){
-						if(dashTimerRight!=0){
-							dashTimerRight--;
-						}
-						if(dashTimerLeft!=0){
-							dashTimerLeft--;
-						}
-						if(dashTimerUp!=0){
-							dashTimerUp--;
-						}
-						if(dashTimerDown!=0){
-							dashTimerDown--;
+					if(laserTime<4000){
+						if( dashLimit != 0){
+							dashLimit--;
 						}
 
-						if(	dashLimit==0&&MainWindow.keepDown&&!MainWindow.keepLeft&&!MainWindow.keepRight&&!MainWindow.keepUp&&lastKeyPressed.equals("down")){
-							justDashed = true;
-							dashTimerDown=0;
-							lastKeyPressed="blank";
-							dashLimit=200;
-							if(ship.yCoordinate+200>yMax){
-								ship.yCoordinate=yMax-ship.yRadius;
-							} else {
-								ship.yCoordinate +=200;
+						if(dashTimerRight!=0||dashTimerLeft!=0||dashTimerUp!=0||dashTimerDown!=0){
+							if(dashTimerRight!=0){
+								dashTimerRight--;
 							}
-							// down
-						} else if(dashLimit==0&&!MainWindow.keepDown&&MainWindow.keepLeft&&!MainWindow.keepRight&&!MainWindow.keepUp&&lastKeyPressed.equals("left")){
-							// left
-							justDashed = true;
-							dashTimerLeft=0;
-							lastKeyPressed="blank";
-							dashLimit=200;
-							if(ship.xCoordinate-300<0){
-								ship.xCoordinate=0+ship.xRadius;
-							} else {
-								ship.xCoordinate -=300+ship.xRadius;
+							if(dashTimerLeft!=0){
+								dashTimerLeft--;
+							}
+							if(dashTimerUp!=0){
+								dashTimerUp--;
+							}
+							if(dashTimerDown!=0){
+								dashTimerDown--;
 							}
 
+							if(	dashLimit==0&&MainWindow.keepDown&&!MainWindow.keepLeft&&!MainWindow.keepRight&&!MainWindow.keepUp&&lastKeyPressed.equals("down")){
+								justDashed = true;
+								dashTimerDown=0;
+								lastKeyPressed="blank";
+								dashLimit=200;
+								if(ship.yCoordinate+200>yMax){
+									ship.yCoordinate=yMax-ship.yRadius;
+								} else {
+									ship.yCoordinate +=200;
+								}
+								// down
+							} else if(dashLimit==0&&!MainWindow.keepDown&&MainWindow.keepLeft&&!MainWindow.keepRight&&!MainWindow.keepUp&&lastKeyPressed.equals("left")){
+								// left
+								justDashed = true;
+								dashTimerLeft=0;
+								lastKeyPressed="blank";
+								dashLimit=200;
+								if(ship.xCoordinate-300<0){
+									ship.xCoordinate=0+ship.xRadius;
+								} else {
+									ship.xCoordinate -=300+ship.xRadius;
+								}
 
-						} else if(dashLimit==0&&!MainWindow.keepDown&&!MainWindow.keepLeft&&MainWindow.keepRight&&!MainWindow.keepUp&&lastKeyPressed.equals("right")){
-							// right
-							justDashed = true;
-							dashTimerRight=0;
-							lastKeyPressed="blank";
-							dashLimit=200;
-							if(ship.xCoordinate+300>xMax){
-								ship.xCoordinate=xMax-ship.xRadius;
-							} else {
-								ship.xCoordinate +=300;
+
+							} else if(dashLimit==0&&!MainWindow.keepDown&&!MainWindow.keepLeft&&MainWindow.keepRight&&!MainWindow.keepUp&&lastKeyPressed.equals("right")){
+								// right
+								justDashed = true;
+								dashTimerRight=0;
+								lastKeyPressed="blank";
+								dashLimit=200;
+								if(ship.xCoordinate+300>xMax){
+									ship.xCoordinate=xMax-ship.xRadius;
+								} else {
+									ship.xCoordinate +=300;
+								}
+
+							} else if(dashLimit==0&&!MainWindow.keepDown&&!MainWindow.keepLeft&&!MainWindow.keepRight&&MainWindow.keepUp&&lastKeyPressed.equals("up")){
+								// up
+								justDashed = true;
+								dashTimerUp=0;
+								lastKeyPressed="blank";
+								dashLimit=200;
+								if(ship.yCoordinate-200<0){
+									ship.yCoordinate=0+ship.yRadius;
+								} else {
+									ship.yCoordinate -=200;
+								}
 							}
 
-						} else if(dashLimit==0&&!MainWindow.keepDown&&!MainWindow.keepLeft&&!MainWindow.keepRight&&MainWindow.keepUp&&lastKeyPressed.equals("up")){
-							// up
-							justDashed = true;
-							dashTimerUp=0;
-							lastKeyPressed="blank";
-							dashLimit=200;
-							if(ship.yCoordinate-200<0){
-								ship.yCoordinate=0+ship.yRadius;
-							} else {
-								ship.yCoordinate -=200;
-							}
-						}
-
-					} else {
-						lastKeyPressed = "blank";
-						if(MainWindow.keepDown&&!MainWindow.keepLeft&&!MainWindow.keepRight&&!MainWindow.keepUp){
-							// down
-							dashTimerDown=120;
-							dashTimerLeft=0;
-							dashTimerUp=0;
-							dashTimerRight=0;
-
-						} else if(!MainWindow.keepDown&&MainWindow.keepLeft&&!MainWindow.keepRight&&!MainWindow.keepUp){
-							// left
-							dashTimerDown=0;
-							dashTimerLeft=120;
-							dashTimerUp=0;
-							dashTimerRight=0;
-
-						} else if(!MainWindow.keepDown&&!MainWindow.keepLeft&&MainWindow.keepRight&&!MainWindow.keepUp){
-							// right
-							dashTimerDown=0;
-							dashTimerLeft=0;
-							dashTimerUp=0;
-							dashTimerRight=120;
-						} else if(!MainWindow.keepDown&&!MainWindow.keepLeft&&!MainWindow.keepRight&&MainWindow.keepUp){
-							// up
-							dashTimerDown=0;
-							dashTimerLeft=0;
-							dashTimerUp=120;
-							dashTimerRight=0;
-						}
-					}
-
-					if(MainWindow.keepDown&ship.yCoordinate<yMax-ship.yRadius){
-						if(ship.speedUp==0){
-							MainWindow.ship.yCoordinate +=1.1;
 						} else {
-							MainWindow.ship.yCoordinate +=2.2;
+							lastKeyPressed = "blank";
+							if(MainWindow.keepDown&&!MainWindow.keepLeft&&!MainWindow.keepRight&&!MainWindow.keepUp){
+								// down
+								dashTimerDown=120;
+								dashTimerLeft=0;
+								dashTimerUp=0;
+								dashTimerRight=0;
+
+							} else if(!MainWindow.keepDown&&MainWindow.keepLeft&&!MainWindow.keepRight&&!MainWindow.keepUp){
+								// left
+								dashTimerDown=0;
+								dashTimerLeft=120;
+								dashTimerUp=0;
+								dashTimerRight=0;
+
+							} else if(!MainWindow.keepDown&&!MainWindow.keepLeft&&MainWindow.keepRight&&!MainWindow.keepUp){
+								// right
+								dashTimerDown=0;
+								dashTimerLeft=0;
+								dashTimerUp=0;
+								dashTimerRight=120;
+							} else if(!MainWindow.keepDown&&!MainWindow.keepLeft&&!MainWindow.keepRight&&MainWindow.keepUp){
+								// up
+								dashTimerDown=0;
+								dashTimerLeft=0;
+								dashTimerUp=120;
+								dashTimerRight=0;
+							}
+						}
+					}
+					if(MainWindow.keepDown&ship.yCoordinate<yMax-ship.yRadius){
+						if(laserTime<4000){
+							if(ship.speedUp==0){
+								MainWindow.ship.yCoordinate +=1.1;
+							} else {
+								MainWindow.ship.yCoordinate +=2.2;
+							}
+						} else{
+							MainWindow.ship.yCoordinate +=0.7;
 						}
 					}
 					if(MainWindow.keepRight&ship.xCoordinate<xMax-ship.xRadius){
-						if(ship.speedUp==0){
-							MainWindow.ship.xCoordinate +=1.1;
+						if(laserTime<4000){
+							if(ship.speedUp==0){
+								MainWindow.ship.xCoordinate +=1.1;
+							} else {
+								MainWindow.ship.xCoordinate +=2.2;
+							}
 						} else {
-							MainWindow.ship.xCoordinate +=2.2;
+							MainWindow.ship.xCoordinate +=0.7;
 						}
 					}
 					if(MainWindow.keepUp&ship.yCoordinate>0+ship.yRadius){
-						if(ship.speedUp==0){
-							MainWindow.ship.yCoordinate -=1.1;
+						if(laserTime<4000){
+							if(ship.speedUp==0){
+								MainWindow.ship.yCoordinate -=1.1;
+							} else {
+								MainWindow.ship.yCoordinate -=2.2;
+							}
 						} else {
-							MainWindow.ship.yCoordinate -=2.2;
+							MainWindow.ship.yCoordinate -=0.7;
 						}
 					}
 					if(MainWindow.keepLeft&ship.xCoordinate>ship.xRadius){
-						if(ship.speedUp==0){
-							MainWindow.ship.xCoordinate -=1.1;
+						if(laserTime<4000){
+							if(ship.speedUp==0){
+								MainWindow.ship.xCoordinate -=1.1;
+							} else {
+								MainWindow.ship.xCoordinate -=2.2;
+							}
 						} else {
-							MainWindow.ship.xCoordinate -=2.2;
+							MainWindow.ship.xCoordinate -=0.7;
 						}
 					}
 				}
@@ -259,10 +293,10 @@ public class MainWindow extends JFrame{
 
 		TimerTask fire = new TimerTask(){
 			public void run (){	
-				if (keepFire){
+				if (keepFire&&laserTime<4000){
 					StateInformation.allObjects.add(new Projectile(ship.xCoordinate+ship.xRadius-3, ship.yCoordinate, 
 							3, -2, 0, Color.yellow,true));
-				}
+				} 
 			}
 		};
 		timer.scheduleAtFixedRate(fire, 100, 200);
@@ -275,6 +309,7 @@ public class MainWindow extends JFrame{
 		Action PlayerMovementLeft = new PlayerMovementLeft();
 		Action PlayerMovementRight = new PlayerMovementRight();
 		Action PlayerFire = new PlayerFire();
+		Action PlayerZ = new PlayerZ();
 
 		Action PlayerMovementUpRelease = new PlayerMovementUpRelease();
 		Action PlayerMovementDownRelease = new PlayerMovementDownRelease();
@@ -296,6 +331,9 @@ public class MainWindow extends JFrame{
 
 		panel.getInputMap().put(KeyStroke.getKeyStroke("SPACE") , "fireKey" );
 		panel.getActionMap().put("fireKey", PlayerFire);
+
+		panel.getInputMap().put(KeyStroke.getKeyStroke("Z") , "zKey" );
+		panel.getActionMap().put("zKey", PlayerZ);
 
 
 		panel.getInputMap().put(KeyStroke.getKeyStroke("released UP") , "upKeyRelease" );
@@ -396,5 +434,10 @@ public class MainWindow extends JFrame{
 		}
 	}
 
-
+	static class PlayerZ extends AbstractAction {
+		public void actionPerformed(ActionEvent event) {
+			if(laserTime==0)
+				laserTime = 5250;
+		}
+	}
 }

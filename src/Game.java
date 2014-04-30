@@ -73,10 +73,27 @@ public class Game {
 //			System.out.println(yRan);
 //			System.out.println(ship.yCoordinate);
 			
-			if(time%20==0){
+			if(time<100){			
+				if(time%20==0){
 				info.allObjects.add(new rangedEnemy(xRan, yRan, 30, (float) .75, 0, Color.DARK_GRAY));
 			} else {
 				info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray));
+			}
+			System.out.println(time);
+			} else {
+				if(time%10==0){
+					info.allObjects.add(new rangedEnemy(xRan, yRan, 30, (float) .75, 0, Color.DARK_GRAY));
+				} else {
+
+					info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray));
+					xRan = (int) (Math.random() * 300)+900;
+					yRan = (int) (Math.random() * 700);
+					info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray));
+					xRan = (int) (Math.random() * 300)+900;
+					yRan = (int) (Math.random() * 700);
+					info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray));
+
+				}				
 			}
 		}
 		private void speedUpSpawn() {

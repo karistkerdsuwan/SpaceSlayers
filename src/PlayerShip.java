@@ -54,6 +54,8 @@ public class PlayerShip {
 
 	}
 	void update(Graphics g){
+		StateInformation.shipXCoor = this.xCoordinate;
+		StateInformation.shipYCoor = this.yCoordinate;
 		if(invincible!=0){
 			invincible--;
 		}
@@ -79,7 +81,7 @@ public class PlayerShip {
 						StateInformation.score+=10;
 					} else if(((PowerUp)StateInformation.allObjects.get(i)).PowerupType==1){
 						this.speedUp=1200;
-					} else if(((PowerUp)StateInformation.allObjects.get(i)).PowerupType==1){
+					} else if(((PowerUp)StateInformation.allObjects.get(i)).PowerupType==2){
 						if(this.shieldStage!=5){
 							this.shieldStage++;
 						} else {
