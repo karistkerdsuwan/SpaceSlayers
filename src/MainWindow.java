@@ -64,6 +64,7 @@ public class MainWindow extends JFrame{
 
 	public void paint (Graphics g){		
 		super.paint(g);
+		
 		ship.draw(g);
 		for (int a =0; a <=Game.info.allObjects.size()-1;a++){
 			Game.info.allObjects.get(a).draw(g);
