@@ -19,7 +19,7 @@ public class GameObject {
 //	    speedX = (float)(speed * (float)Math.cos(Math.toRadians(angleInDegree)));
 //	    speedY = (float)(-speed * (float)Math.sin(Math.toRadians(angleInDegree)));
 //	}
-	public GameObject(float x, float y, float radius, float speedX, float speedY, Color color) {
+	public GameObject(float x, float y, float radius, float speedX, float speedY, Color Color) {
 		this.x = x;
 		this.y = y;
 		this.speedX = speedX;
@@ -28,7 +28,7 @@ public class GameObject {
 //		this.speedX = (float)(speed * Math.cos(Math.toRadians(angleInDegree)));
 //		this.speedY = (float)(-speed * (float)Math.sin(Math.toRadians(angleInDegree)));
 		this.radius = radius;
-		this.color = color;
+		this.color = Color;
 		this.type = "enemy";
 	}
 
@@ -37,8 +37,9 @@ public class GameObject {
 //	}
 
 	public void draw(Graphics g) {
-		g.setColor(this.color);
-		g.fillOval((int)(x - radius), (int)(y - radius), (int)(2 * radius), (int)(2 * radius));
+		Graphics g2 = g;
+		g2.setColor(this.color);
+		g2.fillOval((int)(x - radius), (int)(y - radius), (int)(2 * radius), (int)(2 * radius));
 	}
 
 	public void remove(){

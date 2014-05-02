@@ -15,8 +15,9 @@ public class BasicEnemy extends GameObject {
 			for (int i=0; i<size;i++){
 				if(StateInformation.allObjects.get(i).type.equals("friendly")){
 					if(contact(StateInformation.allObjects.get(i).x, StateInformation.allObjects.get(i).y, StateInformation.allObjects.get(i).radius)){
+						StateInformation.allObjects.get(i).remove();
 						this.remove();
-						size--;
+						size-=2;
 					}
 				}
 			}

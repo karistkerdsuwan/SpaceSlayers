@@ -11,10 +11,10 @@ public class DiagonalEnemy extends rangedEnemy{
 	public void fire(){
 		if(this.y>StateInformation.shipYCoor){
 			StateInformation.allObjects.add(new BounceProjectile(this.x-this.radius+3, this.y, 
-					4, 2, -2, Color.RED,false));
+					4, 2, (float) 1.5, Color.RED,false));
 		}else{
 			StateInformation.allObjects.add(new BounceProjectile(this.x-this.radius+3, this.y, 
-					4, 2, 2, Color.RED,false));
+					4, 2, (float) -1.5, Color.RED,false));
 		}
 		
 		fireTime=400;

@@ -1,21 +1,17 @@
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import javax.sound.midi.MidiDevice.Info;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.InputMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
 public class MainWindow extends JFrame{
@@ -42,9 +38,8 @@ public class MainWindow extends JFrame{
 
 	public static boolean justDashed = false;
 	public static int dashLimit = 0;
-
 	public static int laserTime = 0;
-
+	public ArrayList stars;
 
 	public void update(Graphics g){
 		if(bufferImage == null){
@@ -64,6 +59,19 @@ public class MainWindow extends JFrame{
 
 	public void paint (Graphics g){		
 		super.paint(g);
+		
+		for (int a =0; a <=Game.info.allStars.size()-1;a++){
+			Game.info.allStars.get(a).draw(g);
+			Game.info.allStars.get(a).update();
+		}
+		if(Game.info.allStars.size()<200){
+//			for(int counter=0;counter>200-Game.info.allStars.size();counter++){
+				int xRan = (int) (Math.random() * 300)+900;
+				int yRan = (int) (Math.random() * 700);
+				StateInformation.allStars.add(new Stars(xRan, yRan, Color.red));
+//			}
+		}
+
 		
 		ship.draw(g);
 		for (int a =0; a <=Game.info.allObjects.size()-1;a++){
@@ -112,6 +120,15 @@ public class MainWindow extends JFrame{
 	}
 
 	MainWindow(PlayerShip shipToMove){
+		
+		StateInformation.allStars = new ArrayList();
+		for(int count =0; count<100;count++){
+			int xRan = (int) (Math.random() * 900);
+			int yRan = (int) (Math.random() * 700);
+			StateInformation.allStars.add(new Stars(xRan, yRan, Color.red));
+		}
+		
+		
 		justDashed = false;
 		this.setTitle("Space");		
 		this.setFocusable(false);
@@ -137,7 +154,7 @@ public class MainWindow extends JFrame{
 		//	While the player does not let go of the movement button, the ship moves
 
 		Timer timer = new Timer();	
-		TimerTask task = new TimerTask(){
+		TimerTask movement = new TimerTask(){
 			public void run (){		
 				if(!ship.dead){						
 					if( laserTime != 0){
@@ -243,6 +260,7 @@ public class MainWindow extends JFrame{
 							}
 						}
 					}
+					
 					if(MainWindow.keepDown&ship.yCoordinate<yMax-ship.yRadius){
 						if(laserTime<4000){
 							if(ship.speedUp==0){
@@ -290,7 +308,7 @@ public class MainWindow extends JFrame{
 				}
 			}
 		};
-		timer.scheduleAtFixedRate(task, 100, 5);
+		timer.scheduleAtFixedRate(movement, 100, 5);
 
 		TimerTask fire = new TimerTask(){
 			public void run (){	
@@ -301,7 +319,6 @@ public class MainWindow extends JFrame{
 			}
 		};
 		timer.scheduleAtFixedRate(fire, 100, 200);
-
 
 		InputMap map = new InputMap();
 

@@ -4,52 +4,6 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-//SWITCH TO FLOAT
-
 public class Game {
 	public PlayerShip ship;
 	public MainWindow gameWindow;
@@ -117,12 +71,15 @@ public class Game {
 				//			System.out.println(yRan);
 				//			System.out.println(ship.yCoordinate);
 
-				if(time<200){			
-					info.allObjects.add(new DiagonalEnemy(xRan, yRan, 30, (float) .75, 0, Color.DARK_GRAY));
+				if(time<200){		
+					//this can miscolor objects if not inside "if" statement
 					if(time%20==0){
-						info.allObjects.add(new rangedEnemy(xRan, yRan, 30, (float) .75, 0, Color.DARK_GRAY));
+			//			info.allObjects.add(new rangedEnemy(xRan, yRan, 30, (float) .75, 0, Color.DARK_GRAY));					
+						
+						info.allObjects.add(new DiagonalEnemy(xRan, yRan, 30, (float) .75, 0, Color.DARK_GRAY));
+
 					} else {
-						info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray));
+						info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.pink));
 					}
 				} else {
 					if(time%10==0){

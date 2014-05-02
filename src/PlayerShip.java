@@ -63,7 +63,12 @@ public class PlayerShip {
 			speedUp--;	
 		}
 
-		for (int i=0; i<StateInformation.allObjects.size();i++){
+		for (int i=0; i<StateInformation.allObjects.size();i++){//-1;i++){
+			System.out.println("i: " +i);
+			System.out.println("AllObjectsSize: " +StateInformation.allObjects.size());
+			System.out.println("X " + StateInformation.allObjects.get(i).x);
+			System.out.println("Y " + StateInformation.allObjects.get(i).y);
+
 			if(contact(StateInformation.allObjects.get(i).x, StateInformation.allObjects.get(i).y,
 					StateInformation.allObjects.get(i).radius, StateInformation.allObjects.get(i).radius)){
 				if(StateInformation.allObjects.get(i).type.equals("enemy")){
