@@ -1,6 +1,8 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -65,33 +67,30 @@ public class Game {
 			
 			private void enemySpawn() {
 				int xRan = (int) (Math.random() * 300)+900;
-				int yRan = (int) (Math.random() * 700);
-
-				//			System.out.println(xRan);
-				//			System.out.println(yRan);
-				//			System.out.println(ship.yCoordinate);
-
-				if(time<200){		
+				int yRan = (int) (Math.random() * 670)+20;
+								
+				if(time<150){		
+					
 					//this can miscolor objects if not inside "if" statement
 					if(time%20==0){
 			//			info.allObjects.add(new rangedEnemy(xRan, yRan, 30, (float) .75, 0, Color.DARK_GRAY));					
 						
-						info.allObjects.add(new DiagonalEnemy(xRan, yRan, 30, (float) .75, 0, Color.DARK_GRAY));
+						info.allObjects.add(new DiagonalEnemy(xRan, yRan, 30, (float) .75, 0, Color.DARK_GRAY,0));
 
 					} else {
-						info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.pink));
+						info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray,0));
 					}
 				} else {
 					if(time%10==0){
-						info.allObjects.add(new rangedEnemy(xRan, yRan, 30, (float) .75, 0, Color.DARK_GRAY));
+						info.allObjects.add(new rangedEnemy(xRan, yRan, 30, (float) .75, 0, Color.DARK_GRAY,0));
 					} else {
-						info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray));
+						info.allObjects.add(new DiagonalEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray,0));
 						xRan = (int) (Math.random() * 300)+900;
-						yRan = (int) (Math.random() * 700);
-						info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray));
+						yRan = (int) (Math.random() * 670)+20;
+						info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray,0));
 						xRan = (int) (Math.random() * 300)+900;
-						yRan = (int) (Math.random() * 700);
-						info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray));
+						yRan = (int) (Math.random() * 670)+20;
+						info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray,0));
 
 					}				
 				}

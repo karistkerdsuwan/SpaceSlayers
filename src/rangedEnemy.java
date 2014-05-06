@@ -5,8 +5,8 @@ import java.awt.Graphics;
 public class rangedEnemy extends BasicEnemy{
 	int fireTime;
 	public rangedEnemy(float x, float y, float radius, float speedX,
-			float speedY, Color color) {
-		super(x, y, radius, speedX, speedY, color);
+			float speedY, Color color, int health) {
+		super(x, y, radius, speedX, speedY, color, health);
 		fireTime=400;
 	}
 	public void fire(){
@@ -22,9 +22,15 @@ public class rangedEnemy extends BasicEnemy{
 			for (int i=0; i<size;i++){
 				if(StateInformation.allObjects.get(i).type.equals("friendly")){
 					if(contact(StateInformation.allObjects.get(i).x, StateInformation.allObjects.get(i).y, StateInformation.allObjects.get(i).radius)){
-						StateInformation.allObjects.get(i).remove();
-						this.remove();
-						size-=2;
+						if(health!=0){
+							health--;						
+							StateInformation.allObjects.get(i).remove();
+							size--;
+						} else {
+							StateInformation.allObjects.get(i).remove();
+							this.remove();
+							size-=2;
+						}
 					}
 				}
 			}

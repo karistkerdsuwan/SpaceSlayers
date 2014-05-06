@@ -39,7 +39,7 @@ public class MainWindow extends JFrame{
 	public static boolean justDashed = false;
 	public static int dashLimit = 0;
 	public static int laserTime = 0;
-	public ArrayList stars;
+	public static int planet=0;
 
 	public void update(Graphics g){
 		if(bufferImage == null){
@@ -56,20 +56,46 @@ public class MainWindow extends JFrame{
 	public void setScore (int time){
 		this.finalScore = time+StateInformation.score;
 	}
-
+	
 	public void paint (Graphics g){		
 		super.paint(g);
+				
+		for (int a =0; a <=Game.info.allStars.size()-1;a++){
+			Game.info.allStars.get(a).draw(g);
+			Game.info.allStars.get(a).update();
+		}
+		
+		if(Game.info.allStars.size()<198){
+//			for(int counter=0;counter>200-Game.info.allStarsPlanets.size();counter++){
+				int xRan = (int) (Math.random() * 500)+900;
+				int yRan = (int) (Math.random() * 700);
+
+				StateInformation.allStars.add(new Stars(xRan, yRan, Color.red));
+				xRan = (int) (Math.random() * 500)+900;
+				yRan = (int) (Math.random() * 700);
+
+				StateInformation.allStars.add(new Stars(xRan, yRan, Color.red));
+
+//			}
+		}
+		
 		
 		for (int a =0; a <=Game.info.allStars.size()-1;a++){
 			Game.info.allStars.get(a).draw(g);
 			Game.info.allStars.get(a).update();
 		}
-		if(Game.info.allStars.size()<200){
-//			for(int counter=0;counter>200-Game.info.allStars.size();counter++){
-				int xRan = (int) (Math.random() * 300)+900;
+		
+		if(planet==0){
+			int planetSpawn = (int) (Math.random() * 1000)+1;
+			if(planetSpawn==1){
+				planet=1;
+				int xRan = (int) (Math.random() * 500)+900;
 				int yRan = (int) (Math.random() * 700);
-				StateInformation.allStars.add(new Stars(xRan, yRan, Color.red));
-//			}
+				StateInformation.allPlanets.add(new Planets(xRan, yRan, Color.ORANGE));
+			}
+		} else {			
+			StateInformation.allPlanets.get(0).draw(g);
+			StateInformation.allPlanets.get(0).update();
 		}
 
 		
@@ -122,6 +148,8 @@ public class MainWindow extends JFrame{
 	MainWindow(PlayerShip shipToMove){
 		
 		StateInformation.allStars = new ArrayList();
+		StateInformation.allPlanets = new ArrayList();
+
 		for(int count =0; count<100;count++){
 			int xRan = (int) (Math.random() * 900);
 			int yRan = (int) (Math.random() * 700);
@@ -222,8 +250,8 @@ public class MainWindow extends JFrame{
 								dashTimerUp=0;
 								lastKeyPressed="blank";
 								dashLimit=200;
-								if(ship.yCoordinate-200<0){
-									ship.yCoordinate=0+ship.yRadius;
+								if(ship.yCoordinate-200<20){
+									ship.yCoordinate=20+ship.yRadius;
 								} else {
 									ship.yCoordinate -=200;
 								}
@@ -283,7 +311,7 @@ public class MainWindow extends JFrame{
 							MainWindow.ship.xCoordinate +=0.7;
 						}
 					}
-					if(MainWindow.keepUp&ship.yCoordinate>0+ship.yRadius){
+					if(MainWindow.keepUp&ship.yCoordinate>20+ship.yRadius){
 						if(laserTime<4000){
 							if(ship.speedUp==0){
 								MainWindow.ship.yCoordinate -=1.1;

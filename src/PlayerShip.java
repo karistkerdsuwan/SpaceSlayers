@@ -15,7 +15,7 @@ public class PlayerShip {
 	public int yRadius;
 	public boolean dead;
 	public static int invincible =0;
-	public static int speedUp=0;
+	public int speedUp=0;
 	
 	boolean contact (float x, float y, float checkXRadius, float checkYRadius) {
 		float point12x=(this.xCoordinate);
@@ -64,10 +64,10 @@ public class PlayerShip {
 		}
 
 		for (int i=0; i<StateInformation.allObjects.size();i++){//-1;i++){
-			System.out.println("i: " +i);
-			System.out.println("AllObjectsSize: " +StateInformation.allObjects.size());
-			System.out.println("X " + StateInformation.allObjects.get(i).x);
-			System.out.println("Y " + StateInformation.allObjects.get(i).y);
+//			System.out.println("i: " +i);
+//			System.out.println("AllObjectsSize: " +StateInformation.allObjects.size());
+//			System.out.println("X " + StateInformation.allObjects.get(i).x);
+//			System.out.println("Y " + StateInformation.allObjects.get(i).y);
 
 			if(contact(StateInformation.allObjects.get(i).x, StateInformation.allObjects.get(i).y,
 					StateInformation.allObjects.get(i).radius, StateInformation.allObjects.get(i).radius)){

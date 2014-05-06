@@ -12,7 +12,7 @@ public class Projectile extends GameObject {
 		}
 	}
 	public void update(Graphics graphics) {
-		if(this.x<-50||this.y<-10||this.y>800||this.x>950){
+		if(this.x<-50||this.y<-10||this.y>800||this.x>900){
 			this.remove();
 		}
 		y -= speedY;

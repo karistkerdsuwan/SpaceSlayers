@@ -13,9 +13,9 @@ public class Stars {
 		this.color=Color;
 	}
 	public void update(){
-		this.xCoordinate--;		
-		if(this.xCoordinate<0)
-			this.remove();
+			this.xCoordinate-=1;
+			if(this.xCoordinate<0)
+				this.remove();
 
 	}
 	public void remove(){

@@ -4,8 +4,8 @@ import java.awt.Color;
 public class DiagonalEnemy extends rangedEnemy{
 
 	public DiagonalEnemy(float x, float y, float radius, float speedX,
-			float speedY, Color color) {
-		super(x, y, radius, speedX, speedY, color);
+			float speedY, Color color, int health) {
+		super(x, y, radius, speedX, speedY, color, health);
 		// TODO Auto-generated constructor stub
 	}
 	public void fire(){
