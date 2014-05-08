@@ -36,17 +36,6 @@ public class Game {
 					if(ship.invincible!=0){
 
 					}
-
-					//					if(ship.invincible>400){
-					//						for(int counter=0;counter<StateInformation.allObjects.size();counter++){
-					//							StateInformation.allObjects.get(counter).speedX-=.05;
-					//						}
-					//					} else {
-					//						if(ship.invincible!=0)
-					//						for(int counter=0;counter<StateInformation.allObjects.size();counter++){
-					//							StateInformation.allObjects.get(counter).speedX+=.05;
-					//						}
-					//					}
 					gameWindow.update(g);
 					gameWindow.ship.update(g);
 				}
@@ -72,21 +61,22 @@ public class Game {
 				if(time<150){		
 					
 					//this can miscolor objects if not inside "if" statement
-					if(time%20==0){
-			//			info.allObjects.add(new rangedEnemy(xRan, yRan, 30, (float) .75, 0, Color.DARK_GRAY));					
-						
-						info.allObjects.add(new DiagonalEnemy(xRan, yRan, 30, (float) .75, 0, Color.DARK_GRAY,0));
+					if(time%35==0){
+						info.allObjects.add(new rangedEnemy(xRan, yRan, 30, (float) .75, 0, Color.DARK_GRAY,0));
 
 					} else {
 						info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray,0));
 					}
 				} else {
-					if(time%10==0){
+					if(time%25==0){
 						info.allObjects.add(new rangedEnemy(xRan, yRan, 30, (float) .75, 0, Color.DARK_GRAY,0));
+						if(time%30==0){
+							info.allObjects.add(new DiagonalEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray,0));
+							xRan = (int) (Math.random() * 300)+900;
+							yRan = (int) (Math.random() * 670)+20;
+
+						}
 					} else {
-						info.allObjects.add(new DiagonalEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray,0));
-						xRan = (int) (Math.random() * 300)+900;
-						yRan = (int) (Math.random() * 670)+20;
 						info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray,0));
 						xRan = (int) (Math.random() * 300)+900;
 						yRan = (int) (Math.random() * 670)+20;
@@ -110,10 +100,5 @@ public class Game {
 		timer.cancel();
 
 	}
-
-	public static void main (String[] args){
-		Game game = new Game();
-	}
-
 
 }
