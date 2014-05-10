@@ -21,7 +21,8 @@ public class PlayerShip {
 	public boolean dead;
 	public static int invincible =0;
 	public int speedUp=0;
-	BufferedImage img = null;
+	public BufferedImage img = null;
+	public String imgString = null;
 
 	boolean contact (float x, float y, float checkXRadius, float checkYRadius) {
 		float point12x=(this.xCoordinate);
@@ -115,12 +116,13 @@ public class PlayerShip {
 		this.xRadius=35;
 		
 		try {
-		    img = ImageIO.read(new File("ship.png"));
+		    img = ImageIO.read(new File("shipLas.png"));
 		} catch (IOException e) {
 		}
+		imgString = "shipLas.png";
 	}
 	void draw (Graphics g){
-
+		
 		if(invincible!=0){
 			if(invincible%6==0){
 				Graphics changeColor = g;

@@ -4,9 +4,13 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.InputMap;
@@ -56,32 +60,32 @@ public class MainWindow extends JFrame{
 	public void setScore (int time){
 		this.finalScore = time+StateInformation.score;
 	}
-	
+
 	public void paint (Graphics g){		
 		super.paint(g);
-				
+
 		for (int a =0; a <=Game.info.allStars.size()-1;a++){
 			Game.info.allStars.get(a).draw(g);
 			Game.info.allStars.get(a).update();
 		}
-		
+
 		if(Game.info.allStars.size()<198){
-				int xRan = (int) (Math.random() * 500)+1200;
-				int yRan = (int) (Math.random() * 700);
+			int xRan = (int) (Math.random() * 500)+1200;
+			int yRan = (int) (Math.random() * 700);
 
-				StateInformation.allStars.add(new Stars(xRan, yRan, Color.red));
-				xRan = (int) (Math.random() * 500)+900;
-				yRan = (int) (Math.random() * 700);
+			StateInformation.allStars.add(new Stars(xRan, yRan, Color.red));
+			xRan = (int) (Math.random() * 500)+900;
+			yRan = (int) (Math.random() * 700);
 
-				StateInformation.allStars.add(new Stars(xRan, yRan, Color.red));
+			StateInformation.allStars.add(new Stars(xRan, yRan, Color.red));
 		}
-		
-		
+
+
 		for (int a =0; a <=Game.info.allStars.size()-1;a++){
 			Game.info.allStars.get(a).draw(g);
 			Game.info.allStars.get(a).update();
 		}
-		
+
 		if(planet==0){
 			int planetSpawn = (int) (Math.random() * 1)+1;
 			if(planetSpawn==1){
@@ -97,11 +101,12 @@ public class MainWindow extends JFrame{
 			StateInformation.allPlanets.get(0).update();
 		}
 
-		
+
 		ship.draw(g);
 		for (int a =0; a <=Game.info.allObjects.size()-1;a++){
 			Game.info.allObjects.get(a).draw(g);
 		}
+		
 		if(laserTime>4000){
 			g.setColor(Color.red);
 			g.fillRect((int)ship.xCoordinate+ship.xRadius, (int) ship.yCoordinate-ship.yRadius, xMax, 50);
@@ -111,7 +116,7 @@ public class MainWindow extends JFrame{
 						StateInformation.allObjects.get(counter).x>ship.xCoordinate){			
 					if(StateInformation.allObjects.get(counter).getClass().toString().equals("class Projectile")||
 							StateInformation.allObjects.get(counter).getClass().toString().equals("class BounceProjectile")){
-						
+
 					} else {
 						StateInformation.score+=3;
 						StateInformation.combo++;
@@ -120,6 +125,7 @@ public class MainWindow extends JFrame{
 				}
 			}
 		}
+		
 		if(!ship.dead){
 			if(ship.invincible>680){
 				if(ship.shieldStage==4){
@@ -152,7 +158,7 @@ public class MainWindow extends JFrame{
 					g.drawString("1000", xMax-480, 180);
 				}
 			}
-			
+
 		} else {
 
 			// death animation goes here
@@ -168,7 +174,7 @@ public class MainWindow extends JFrame{
 	}
 
 	MainWindow(PlayerShip shipToMove){
-		
+
 		StateInformation.allStars = new ArrayList();
 		StateInformation.allPlanets = new ArrayList();
 
@@ -177,8 +183,8 @@ public class MainWindow extends JFrame{
 			int yRan = (int) (Math.random() * 700);
 			StateInformation.allStars.add(new Stars(xRan, yRan, Color.red));
 		}
-		
-		
+
+
 		justDashed = false;
 		this.setTitle("Space");		
 		this.setFocusable(false);
@@ -206,11 +212,28 @@ public class MainWindow extends JFrame{
 		Timer timer = new Timer();	
 		TimerTask movement = new TimerTask(){
 			public void run (){		
-				if(!ship.dead){						
+				if(!ship.dead){		
 					if( laserTime != 0){
 						laserTime --;
 					}
-
+					if(laserTime<4000&&laserTime!=0){
+						if(MainWindow.ship.imgString.equals("shipLas.png")){
+							try {
+								MainWindow.ship.img = ImageIO.read(new File("shipNoLas.png"));
+								MainWindow.ship.imgString="shipNoLas.png";
+							} catch (IOException e) {
+							}
+						}
+					} else {
+						if(MainWindow.ship.imgString.equals("shipNoLas.png")){
+							try {
+								MainWindow.ship.img = ImageIO.read(new File("shipLas.png"));
+								MainWindow.ship.imgString="shipLas.png";
+							} catch (IOException e) {
+							}
+						}
+					}
+					
 					if(laserTime<4000){
 						if( dashLimit != 0){
 							dashLimit--;
@@ -309,8 +332,8 @@ public class MainWindow extends JFrame{
 								dashTimerRight=0;
 							}
 						}
-					}
-					
+					} 
+
 					if(MainWindow.keepDown&ship.yCoordinate<yMax-ship.yRadius){
 						if(laserTime<4000){
 							if(ship.speedUp==0){
