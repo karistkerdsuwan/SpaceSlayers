@@ -27,6 +27,7 @@ public class rangedEnemy extends BasicEnemy{
 							StateInformation.allObjects.get(i).remove();
 							size--;
 						} else {
+							StateInformation.combo++;
 							StateInformation.allObjects.get(i).remove();
 							this.remove();
 							size-=2;

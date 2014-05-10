@@ -66,8 +66,7 @@ public class MainWindow extends JFrame{
 		}
 		
 		if(Game.info.allStars.size()<198){
-//			for(int counter=0;counter>200-Game.info.allStarsPlanets.size();counter++){
-				int xRan = (int) (Math.random() * 500)+900;
+				int xRan = (int) (Math.random() * 500)+1200;
 				int yRan = (int) (Math.random() * 700);
 
 				StateInformation.allStars.add(new Stars(xRan, yRan, Color.red));
@@ -75,8 +74,6 @@ public class MainWindow extends JFrame{
 				yRan = (int) (Math.random() * 700);
 
 				StateInformation.allStars.add(new Stars(xRan, yRan, Color.red));
-
-//			}
 		}
 		
 		
@@ -86,12 +83,14 @@ public class MainWindow extends JFrame{
 		}
 		
 		if(planet==0){
-			int planetSpawn = (int) (Math.random() * 1000)+1;
+			int planetSpawn = (int) (Math.random() * 1)+1;
 			if(planetSpawn==1){
 				planet=1;
-				int xRan = (int) (Math.random() * 500)+900;
-				int yRan = (int) (Math.random() * 700);
-				StateInformation.allPlanets.add(new Planets(xRan, yRan, Color.ORANGE));
+				int xRan = (int) (Math.random() * 500)+1500;
+				int yRan = (int) (Math.random() * 660);
+				int sizeRan = (int) (Math.random() * 400)+200;
+
+				StateInformation.allPlanets.add(new Planets(xRan, yRan, Color.ORANGE, sizeRan));
 			}
 		} else {			
 			StateInformation.allPlanets.get(0).draw(g);
@@ -105,13 +104,19 @@ public class MainWindow extends JFrame{
 		}
 		if(laserTime>4000){
 			g.setColor(Color.red);
-			g.fillRect((int)ship.xCoordinate+ship.xRadius, (int) ship.yCoordinate-ship.yRadius, 900, 50);
+			g.fillRect((int)ship.xCoordinate+ship.xRadius, (int) ship.yCoordinate-ship.yRadius, xMax, 50);
 			for(int counter = 0; counter<StateInformation.allObjects.size();counter++){
 				if(StateInformation.allObjects.get(counter).type.equals("enemy")&&
 						Math.abs(StateInformation.allObjects.get(counter).y-ship.yCoordinate)<(ship.yRadius*1.7)&&
-						StateInformation.allObjects.get(counter).x>ship.xCoordinate){
+						StateInformation.allObjects.get(counter).x>ship.xCoordinate){			
+					if(StateInformation.allObjects.get(counter).getClass().toString().equals("class Projectile")||
+							StateInformation.allObjects.get(counter).getClass().toString().equals("class BounceProjectile")){
+						
+					} else {
+						StateInformation.score+=3;
+						StateInformation.combo++;
+					}
 					StateInformation.allObjects.get(counter).remove();
-					StateInformation.score+=3;
 				}
 			}
 		}
@@ -126,21 +131,38 @@ public class MainWindow extends JFrame{
 				} else {
 					g.setColor(new Color (225,225,225,180));
 				}
-				g.fillRect(0, 0, 950, xMax);
+				g.fillRect(0, 0, xMax, yMax);
 			}
 			for (int a =0; a <=Game.info.allObjects.size()-1;a++){
 				Game.info.allObjects.get(a).update(g);
 			}
+			if(StateInformation.combo!=0){
+				g.setColor(Color.white);				
+				if(StateInformation.combo<10){
+					g.setFont(this.getFont().deriveFont(Font.ITALIC).deriveFont(new Float(90)));
+					g.drawString(String.valueOf(StateInformation.combo), xMax-85, 120);
+				} else if(StateInformation.combo<100){
+					g.setFont(this.getFont().deriveFont(Font.ITALIC).deriveFont(new Float(110)));
+					g.drawString(String.valueOf(StateInformation.combo), xMax-140, 122);
+				} else if(StateInformation.combo<1000){
+					g.setFont(this.getFont().deriveFont(Font.ITALIC).deriveFont(new Float(150)));
+					g.drawString(String.valueOf(StateInformation.combo), xMax-260, 140);
+				} else {
+					g.setFont(this.getFont().deriveFont(Font.BOLD).deriveFont(new Float(200)));
+					g.drawString("1000", xMax-480, 180);
+				}
+			}
+			
 		} else {
 
 			// death animation goes here
 			g.setColor(new Color (225, 225, 225, 205));
-			g.fillRect(0, 0, 950, 750);
+			g.fillRect(0, 0, xMax, yMax);
 			g.setColor(Color.WHITE);
-			g.setFont(this.getFont().deriveFont(Font.BOLD).deriveFont(new Float(300)));
-			g.drawString("DEAD", 0, 300);
-			g.setFont(this.getFont().deriveFont(Font.BOLD).deriveFont(new Float(100)));
-			g.drawString("SCORE: "+ String.valueOf(finalScore), 15, 400);
+			g.setFont(this.getFont().deriveFont(Font.BOLD).deriveFont(new Float(400)));
+			g.drawString("DEAD", 0, 320);
+			g.setFont(this.getFont().deriveFont(Font.BOLD).deriveFont(new Float(43)));
+			g.drawString("SCORE: " + String.valueOf(finalScore), 30, 380);
 
 		}
 	}
@@ -151,7 +173,7 @@ public class MainWindow extends JFrame{
 		StateInformation.allPlanets = new ArrayList();
 
 		for(int count =0; count<100;count++){
-			int xRan = (int) (Math.random() * 900);
+			int xRan = (int) (Math.random() * 1200);
 			int yRan = (int) (Math.random() * 700);
 			StateInformation.allStars.add(new Stars(xRan, yRan, Color.red));
 		}
@@ -165,8 +187,8 @@ public class MainWindow extends JFrame{
 		this.setContentPane(panel);
 		panel.setBackground(Color.black);
 
-		this.setSize(new Dimension (900, 700));
-		this.xMax=900;
+		this.setSize(new Dimension (1200, 700));
+		this.xMax=1200;
 		this.yMax=700;
 		this.setVisible(false);
 		this.setVisible(true);

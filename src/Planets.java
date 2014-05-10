@@ -1,17 +1,29 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 
 public class Planets {
-
+	BufferedImage img = null;
 	private float xCoordinate;
 	private float yCoordinate;
 	private Color color;
 	private boolean planet;
-	public Planets(float x, float y, Color Color) {
+	private int size;
+	public Planets(float x, float y, Color Color, int sizeRan) {
 		this.xCoordinate=x;
 		this.yCoordinate=y;
 		this.color=Color;
+		this.size=sizeRan;
+		try {
+		    img = ImageIO.read(new File("Planet1.png"));
+		} catch (IOException e) {
+		}
+
 	}
 	
 	public void update(){
@@ -29,7 +41,6 @@ public class Planets {
 	}
 	public void draw(Graphics g) {
 		Graphics g2=g;
-		g2.setColor(this.color);
-		g2.fillOval((int)this.xCoordinate, (int) this.yCoordinate, 500, 500);
+		g2.drawImage(img, (int)xCoordinate, (int)yCoordinate, size, size, null);
 	}
 }

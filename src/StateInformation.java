@@ -1,11 +1,12 @@
 import java.util.ArrayList;
 
 public class StateInformation {
-	static ArrayList <GameObject> allObjects;
-	static ArrayList <Stars> allStars;
-	static ArrayList <Planets> allPlanets;
-
-	static int score=0;
-	static float shipYCoor=0;
-	static float shipXCoor=0;
+	public static ArrayList <GameObject> allObjects;
+	public static ArrayList <Stars> allStars;
+	public static ArrayList <Planets> allPlanets;
+	
+	public static int score=0;
+	public static int combo=0;
+	public static float shipYCoor=0;
+	public static float shipXCoor=0;
 }

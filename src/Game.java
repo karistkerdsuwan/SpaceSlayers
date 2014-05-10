@@ -15,12 +15,10 @@ public class Game {
 	public boolean slow=false;
 	Timer timer = new Timer();	
 
-	Game (){
-
+	Game (MainScreen Parent){
 		slow=false;
 		info = new StateInformation();
 		info.allObjects = new ArrayList();
-		ContainerBox box = new ContainerBox(2,2,700,700);
 		ship = new PlayerShip();		
 		gameWindow = new MainWindow(ship);	
 		Graphics g = gameWindow.getGraphics();
@@ -44,57 +42,51 @@ public class Game {
 		timer.scheduleAtFixedRate(task, 100, 1);
 		TimerTask spawn = new TimerTask(){
 			public void run (){			
-
 				time++;
 				if(time%4==0){
 					enemySpawn();
 				}
 				if(time%16==0){
-					speedUpSpawn();
+					powerUpSpawn();
 				}
 			}
-			
 			private void enemySpawn() {
-				int xRan = (int) (Math.random() * 300)+900;
-				int yRan = (int) (Math.random() * 670)+20;
-								
+				int xRan = (int) (Math.random() * 300)+1200;
+				int yRan = (int) (Math.random() * 670)+20;			
 				if(time<150){		
-					
-					//this can miscolor objects if not inside "if" statement
 					if(time%35==0){
 						info.allObjects.add(new rangedEnemy(xRan, yRan, 30, (float) .75, 0, Color.DARK_GRAY,0));
-
 					} else {
 						info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray,0));
 					}
 				} else {
 					if(time%25==0){
 						info.allObjects.add(new rangedEnemy(xRan, yRan, 30, (float) .75, 0, Color.DARK_GRAY,0));
-						if(time%30==0){
-							info.allObjects.add(new DiagonalEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray,0));
-							xRan = (int) (Math.random() * 300)+900;
+						if(time%30==0){							
+							xRan = (int) (Math.random() * 300)+1200;
 							yRan = (int) (Math.random() * 670)+20;
-
+							info.allObjects.add(new DiagonalEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray,0));
 						}
 					} else {
-						info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray,0));
-						xRan = (int) (Math.random() * 300)+900;
+						xRan = (int) (Math.random() * 300)+1200;
 						yRan = (int) (Math.random() * 670)+20;
 						info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray,0));
-
+						xRan = (int) (Math.random() * 300)+1200;
+						yRan = (int) (Math.random() * 670)+20;
+						info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray,0));
 					}				
 				}
 			}
-			private void speedUpSpawn() {
-				int xRan = (int) (Math.random() * 300)+900;
+			private void powerUpSpawn() {
+				int xRan = (int) (Math.random() * 300)+1200;
 				int yRan = (int) (Math.random() * 700);
 				info.allObjects.add(new PowerUp(xRan, yRan, 30, (float) .75, 0, Color.BLUE, (int) (Math.random() *3)));
 
 			}
 		};
 		timer.scheduleAtFixedRate(spawn, 0, 40); // (spawn,  900, 800);
+		
 	}
-
 	public void stop (){
 		gameWindow.setScore(time);
 		timer.cancel();
