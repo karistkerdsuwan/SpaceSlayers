@@ -26,7 +26,9 @@ public class MainWindow extends JFrame{
 	public JPanel panel;
 	public int finalScore;
 	public BufferedImage laserImg;
-	
+	public BufferedImage laserImg2;
+	public BufferedImage laserImg3;
+
 	public static boolean keepRight = false;
 	public static boolean keepLeft = false;
 	public static boolean keepUp = false;
@@ -75,11 +77,11 @@ public class MainWindow extends JFrame{
 			int xRan = (int) (Math.random() * 500)+1400;
 			int yRan = (int) (Math.random() * 700);
 
-			StateInformation.allStars.add(new Stars(xRan, yRan, Color.red));
+			StateInformation.allStars.add(new Stars(xRan, yRan, Color.yellow));
 			xRan = (int) (Math.random() * 500)+900;
 			yRan = (int) (Math.random() * 700);
 
-			StateInformation.allStars.add(new Stars(xRan, yRan, Color.red));
+			StateInformation.allStars.add(new Stars(xRan, yRan, Color.yellow));
 		}
 
 
@@ -109,9 +111,16 @@ public class MainWindow extends JFrame{
 		for (int a =0; a <=Game.info.allObjects.size()-1;a++){
 			Game.info.allObjects.get(a).draw(g);
 		}
-		
+
 		if(laserTime>4000){
-			g.drawImage(laserImg,(int)ship.xCoordinate+ship.xRadius-20, (int) ship.yCoordinate-ship.yRadius-2, xMax, 50, null);
+			if(laserTime>4300){
+				g.drawImage(laserImg,(int)ship.xCoordinate+ship.xRadius-20, (int) ship.yCoordinate-ship.yRadius-2, xMax, 50, null);
+			} else if(laserTime>4100)	{		
+				g.drawImage(laserImg2,(int)ship.xCoordinate+ship.xRadius-20, (int) ship.yCoordinate-ship.yRadius-2, xMax, 50, null);
+
+			} else if(laserTime>4001)		{
+				g.drawImage(laserImg3,(int)ship.xCoordinate+ship.xRadius-20, (int) ship.yCoordinate-ship.yRadius-2, xMax, 50, null);
+			}
 			for(int counter = 0; counter<StateInformation.allObjects.size();counter++){
 				if(StateInformation.allObjects.get(counter).type.equals("enemy")&&
 						Math.abs(StateInformation.allObjects.get(counter).y-ship.yCoordinate)<(ship.yRadius*1.7)&&
@@ -125,8 +134,8 @@ public class MainWindow extends JFrame{
 					StateInformation.allObjects.get(counter).remove();
 				}
 			}
-		}
-		
+		} 
+
 		if(!ship.dead){
 			if(ship.invincible>680){
 				if(ship.shieldStage==4){
@@ -182,7 +191,7 @@ public class MainWindow extends JFrame{
 		for(int count =0; count<100;count++){
 			int xRan = (int) (Math.random() * 1200);
 			int yRan = (int) (Math.random() * 700);
-			StateInformation.allStars.add(new Stars(xRan, yRan, Color.red));
+			StateInformation.allStars.add(new Stars(xRan, yRan, Color.yellow));
 		}
 
 
@@ -210,6 +219,15 @@ public class MainWindow extends JFrame{
 			laserImg = ImageIO.read(new File("laser.png"));
 		} catch (IOException e) {
 		}
+		try {
+			laserImg2 = ImageIO.read(new File("laser2.png"));
+		} catch (IOException e) {
+		}
+		try {
+			laserImg3 = ImageIO.read(new File("laser3.png"));
+		} catch (IOException e) {
+		}
+
 		//  Adds and subracts from the position of the ship based on player input during a loop;
 		//	While the player does not let go of the movement button, the ship moves
 
@@ -237,7 +255,7 @@ public class MainWindow extends JFrame{
 							}
 						}
 					}
-					
+
 					if(laserTime<4000){
 						if( dashLimit != 0){
 							dashLimit--;

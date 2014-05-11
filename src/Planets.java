@@ -25,7 +25,7 @@ public class Planets {
 				img = ImageIO.read(new File("Planet1.png"));
 			} catch (IOException e) {
 			}
-		} else 	if(typeRan==0){
+		} else 	if(typeRan==1){
 			//lava
 			try {
 				img = ImageIO.read(new File("Planet2.png"));
