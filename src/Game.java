@@ -51,7 +51,7 @@ public class Game {
 				}
 			}
 			private void enemySpawn() {
-				int xRan = (int) (Math.random() * 300)+1200;
+				int xRan = (int) (Math.random() * 300)+1300;
 				int yRan = (int) (Math.random() * 670)+20;			
 				if(time<150){		
 					if(time%35==0){
@@ -63,25 +63,24 @@ public class Game {
 					if(time%25==0){
 						info.allObjects.add(new rangedEnemy(xRan, yRan, 30, (float) .75, 0, Color.DARK_GRAY,0));
 						if(time%30==0){							
-							xRan = (int) (Math.random() * 300)+1200;
+							xRan = (int) (Math.random() * 300)+1300;
 							yRan = (int) (Math.random() * 670)+20;
 							info.allObjects.add(new DiagonalEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray,0));
 						}
 					} else {
-						xRan = (int) (Math.random() * 300)+1200;
+						xRan = (int) (Math.random() * 300)+1300;
 						yRan = (int) (Math.random() * 670)+20;
 						info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray,0));
-						xRan = (int) (Math.random() * 300)+1200;
+						xRan = (int) (Math.random() * 300)+1300;
 						yRan = (int) (Math.random() * 670)+20;
 						info.allObjects.add(new BasicEnemy(xRan, yRan, 30, (float) .75, 0, Color.gray,0));
 					}				
 				}
 			}
 			private void powerUpSpawn() {
-				int xRan = (int) (Math.random() * 300)+1200;
+				int xRan = (int) (Math.random() * 300)+1300;
 				int yRan = (int) (Math.random() * 700);
-				info.allObjects.add(new PowerUp(xRan, yRan, 30, (float) .75, 0, Color.BLUE, (int) (Math.random() *3)));
-
+				info.allObjects.add(new PowerUp(xRan, yRan, 26, (float) .65, 0, Color.BLUE, (int) (Math.random() *3)));
 			}
 		};
 		timer.scheduleAtFixedRate(spawn, 0, 40); // (spawn,  900, 800);

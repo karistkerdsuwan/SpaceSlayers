@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,7 +25,8 @@ public class MainWindow extends JFrame{
 	public Graphics bufferGraphic;
 	public JPanel panel;
 	public int finalScore;
-
+	public BufferedImage laserImg;
+	
 	public static boolean keepRight = false;
 	public static boolean keepLeft = false;
 	public static boolean keepUp = false;
@@ -70,7 +72,7 @@ public class MainWindow extends JFrame{
 		}
 
 		if(Game.info.allStars.size()<198){
-			int xRan = (int) (Math.random() * 500)+1200;
+			int xRan = (int) (Math.random() * 500)+1400;
 			int yRan = (int) (Math.random() * 700);
 
 			StateInformation.allStars.add(new Stars(xRan, yRan, Color.red));
@@ -91,10 +93,11 @@ public class MainWindow extends JFrame{
 			if(planetSpawn==1){
 				planet=1;
 				int xRan = (int) (Math.random() * 500)+1500;
-				int yRan = (int) (Math.random() * 660);
+				int yRan = (int) (Math.random() * 600)+30;
 				int sizeRan = (int) (Math.random() * 400)+200;
+				int typeRan = (int) (Math.random() * 3);
 
-				StateInformation.allPlanets.add(new Planets(xRan, yRan, Color.ORANGE, sizeRan));
+				StateInformation.allPlanets.add(new Planets(xRan, yRan, Color.ORANGE, sizeRan, typeRan));
 			}
 		} else {			
 			StateInformation.allPlanets.get(0).draw(g);
@@ -108,15 +111,13 @@ public class MainWindow extends JFrame{
 		}
 		
 		if(laserTime>4000){
-			g.setColor(Color.red);
-			g.fillRect((int)ship.xCoordinate+ship.xRadius, (int) ship.yCoordinate-ship.yRadius, xMax, 50);
+			g.drawImage(laserImg,(int)ship.xCoordinate+ship.xRadius-20, (int) ship.yCoordinate-ship.yRadius-2, xMax, 50, null);
 			for(int counter = 0; counter<StateInformation.allObjects.size();counter++){
 				if(StateInformation.allObjects.get(counter).type.equals("enemy")&&
 						Math.abs(StateInformation.allObjects.get(counter).y-ship.yCoordinate)<(ship.yRadius*1.7)&&
 						StateInformation.allObjects.get(counter).x>ship.xCoordinate){			
 					if(StateInformation.allObjects.get(counter).getClass().toString().equals("class Projectile")||
 							StateInformation.allObjects.get(counter).getClass().toString().equals("class BounceProjectile")){
-
 					} else {
 						StateInformation.score+=3;
 						StateInformation.combo++;
@@ -205,7 +206,10 @@ public class MainWindow extends JFrame{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		panel.requestFocus();
-
+		try {
+			laserImg = ImageIO.read(new File("laser.png"));
+		} catch (IOException e) {
+		}
 		//  Adds and subracts from the position of the ship based on player input during a loop;
 		//	While the player does not let go of the movement button, the ship moves
 
@@ -275,8 +279,6 @@ public class MainWindow extends JFrame{
 								} else {
 									ship.xCoordinate -=300+ship.xRadius;
 								}
-
-
 							} else if(dashLimit==0&&!MainWindow.keepDown&&!MainWindow.keepLeft&&MainWindow.keepRight&&!MainWindow.keepUp&&lastKeyPressed.equals("right")){
 								// right
 								justDashed = true;

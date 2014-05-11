@@ -14,14 +14,29 @@ public class Planets {
 	private Color color;
 	private boolean planet;
 	private int size;
-	public Planets(float x, float y, Color Color, int sizeRan) {
+	public Planets(float x, float y, Color Color, int sizeRan, int typeRan) {
 		this.xCoordinate=x;
 		this.yCoordinate=y;
 		this.color=Color;
 		this.size=sizeRan;
-		try {
-		    img = ImageIO.read(new File("Planet1.png"));
-		} catch (IOException e) {
+		if(typeRan==0){
+			//grass
+			try {
+				img = ImageIO.read(new File("Planet1.png"));
+			} catch (IOException e) {
+			}
+		} else 	if(typeRan==0){
+			//lava
+			try {
+				img = ImageIO.read(new File("Planet2.png"));
+			} catch (IOException e) {
+			}
+		} else {
+			//ice
+			try {
+				img = ImageIO.read(new File("Planet3.png"));
+			} catch (IOException e) {
+			}
 		}
 
 	}
